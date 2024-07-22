@@ -8,5 +8,5 @@ export const orderBySticky = (posts) => {
 
     return post
   })
-  return _.orderBy(handlePosts, ['sticky', 'dateTimestamp'], ['desc', 'desc'])
+  return _.orderBy(handlePosts, ['sticky', 'dateTimestamp',"id"], ['desc', 'desc', 'desc'])
 }

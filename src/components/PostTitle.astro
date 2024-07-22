@@ -2,12 +2,20 @@
 import {formatDate} from "../utils/formatDate";
 import {dealLabel} from "../utils/dealLabel";
 import {t} from '../i18n/utils'
+import {categories} from "@/consts";
+import getCategories from "@utils/getCategories";
+
 const {title, date, category, tags, lastModified = '', draft = false, readingTime = {}} = Astro.props
+
+// カテゴリ一覧を配列で返す
+const flatCategoriesList = getCategories(categories);
+const path = flatCategoriesList.find((cat) => cat.slug===category);
+
 ---
 
-<div class="border-b-1">
+<header class="border-b-1">
   <!-- title -->
-  <h1 class="break-all text-xl font-bold">{title}</h1>
+  <h1 class="break-all text-4xl font-bold font-title">{title}</h1>
 
   <div class="flex flex-wrap items-center my-2 space-x-2">
     <!-- date -->
@@ -15,6 +23,15 @@ const {title, date, category, tags, lastModified = '', draft = false, readingTim
       date && (
         <i class="ri-calendar-2-fill"/>
         <div class="tag">{formatDate(date)}</div>
+      )
+    }
+
+    <!-- update -->
+    {
+      lastModified && (
+        <div class="divider-vertical"/>
+        <i class="ri-calendar-check-fill"></i>
+        <div class="tag">{t('post.lastUpdated')}：{formatDate(lastModified)}</div>
       )
     }
 
@@ -33,7 +50,7 @@ const {title, date, category, tags, lastModified = '', draft = false, readingTim
       category && dealLabel(category).filter(item => item !== 'uncategorized').map((categoryName) => (
         <div class="divider-vertical"/>
         <i class="ri-folder-3-line"/>
-        <a href={"/category/" + categoryName} class="text-wrap break-all  hover:text-skin-active cursor-pointer">{categoryName}</a>
+        <a href={"/category/" + categoryName} class="text-wrap break-all  hover:text-skin-active cursor-pointer">{path.name}</a>
       ))
     }
 
@@ -44,15 +61,6 @@ const {title, date, category, tags, lastModified = '', draft = false, readingTim
         <i class="ri-price-tag-3-line"/>
         <a href={"/tags/" + tagName} class="text-wrap break-all hover:text-skin-active cursor-pointer">{tagName}</a>
       ))
-    }
-
-    <!-- update -->
-    {
-      lastModified && (
-        <div class="divider-vertical"/>
-        <i class="ri-calendar-check-fill"></i>
-        <div class="tag">{t('post.lastUpdated')}：{lastModified}</div>
-      )
     }
 
     <!-- minutes -->
@@ -66,4 +74,4 @@ const {title, date, category, tags, lastModified = '', draft = false, readingTim
       )
     }
   </div>
-</div>
+</header>

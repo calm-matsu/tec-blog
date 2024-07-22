@@ -59,8 +59,8 @@ export function Search(props) {
         {resultPosts().map(post =>
           <>
             <a
-              class="text-xl underline-offset-4 decoration-skin-base decoration-wavy hover:underline hover:decoration-sky-500 font-bold"
-              href={'/' + post.collection + '/' + post.slug} innerHTML={post.data.title}>
+              class="text-xl underline-offset-4 decoration-skin-base hover:underline hover:decoration-sky-500 font-bold"
+              href={'/post/' + post.slug} innerHTML={post.data.title}>
             </a>
             <div class="flex items-center">
               {post.data.date ?

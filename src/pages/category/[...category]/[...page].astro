@@ -1,0 +1,119 @@
+---
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+import PostView from '@components/PostView.astro';
+import Pagination from "@components/Pagination.astro";
+import {site,categories} from '@/consts'
+import getPostsByCategory from "@utils/getPostsByCategory";
+import getUniqueCategory from "@utils/getUniqeCategory";
+import {sortPostsByDate} from "@utils/sortPostsByDate";
+import {getCollectionByName} from "@utils/getCollectionByName";
+import getCategories from "@utils/getCategories";
+import type { Page } from "astro";
+import { Debug } from 'astro/components';
+
+function getCategoriesList(){
+  return [
+    { name: "技術", slug: "tec" },
+    { name: "技術/してみた", slug: "tec/try" },
+    { name: "技術/HowTo", slug: "tec/howto" },
+    { name: "技術/解説", slug: "tec/explan" },
+    { name: "ポエム", slug: "poem" },
+    { name: "未整理", slug: "uncategorized" },
+  ];
+}
+
+export async function getStaticPaths({paginate}) {
+  const allPosts = await getCollectionByName("blog");
+  const uniqueCategory = getUniqueCategory(allPosts);
+  console.log(uniqueCategory);
+
+
+  //カテゴリ一覧を設定ファイルから配列で取得
+  const flatCategoriesList = getCategories(categories);
+
+  return flatCategoriesList.flatMap((nowCategory) => {
+    const filteredPosts = getPostsByCategory(allPosts, nowCategory.slug);
+    const resultPosts = sortPostsByDate(filteredPosts);
+    return paginate(resultPosts, {
+      params: { category: nowCategory.slug },
+      props: {category: nowCategory},
+      pageSize: site.postPageSize
+    });
+    
+  });
+
+  //カテゴリ一覧を取得
+  /*
+  const categoryArr = ["tec","tec/try","tec/howto","tec/explan","poem"];
+
+  return categoryArr.flatMap((category) => {
+    const filteredPosts = getPostsByCategory(allPosts, category);
+    const resultPosts = sortPostsByDate(filteredPosts);
+    console.log("category="+category+",pagesize="+site.postPageSize);
+    return paginate(resultPosts, {
+      params: { category },
+      props: {category},
+      pageSize: site.postPageSize
+    });
+  });
+  */
+}
+
+interface Props {
+  page: Page;
+  category;
+}
+
+const { page } = Astro.props;
+const {category} = Astro.props;
+const categoryTopPath = [{name:"カテゴリ別",path:"category/"}]
+const fullPath = [...categoryTopPath,...category.full.map((nowCategory) =>{
+  return { name:nowCategory.name, path:"category/"+nowCategory.slug };
+})];
+---
+
+<IndexPage title={"カテゴリ："+category.name} sitetitle={true}>
+  <!-- <Debug {page} /> -->
+  <Breadcrumb lists={fullPath} />
+  <!-- <Debug {fullPath} /> -->
+  <h1 class="break-all text-4xl font-bold font-title"><i class="ri-folder-line font-normal"/>「{category.name}」の記事一覧</h1>
+  <!-- <Debug {category} /> -->
+  {
+    category.hasOwnProperty("children") && (
+      <div class="m-2 flex items-center">
+      <h2 class="after:content-['：']">サブカテゴリ</h2>
+      <ul class="flex">
+      {
+      category.children.map((childCategory) => (
+        <li class="p-2"><i class="ri-folder-line font-normal"/><a
+          class="hover:text-skin-active"
+          title={childCategory.name}
+          href={"/category/" + childCategory.slug}
+        >
+          {childCategory.name}
+        </a></li>
+      ))
+      }
+      </ul>
+      </div>
+    )
+  }
+  {
+    page.data.length > 0 ?
+      page.data.map(blog =>
+        <PostView blog={blog}></PostView>)
+      : <p>存在しません</p>
+  }
+  {
+    page.lastPage > 1 ?
+      <Pagination
+        currentPage={page.currentPage}
+        totalPage={page.lastPage}
+        prefixUrl={'/category/'+category.slug+'/'}
+        firstPageUrl={'/category/'+category.slug}
+        url={page.url}
+        //url={{prev: '', next: '/category/'+category+'/2'}}
+      /> : ''
+  }
+</IndexPage>

@@ -1,46 +1,49 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Profile from '../components/Profile.astro'
-import Comment from '../components/Comment.astro'
-import Toc from '../components/Toc.astro'
-import {comment} from "../consts";
-import ScrollToTop from '../components/ScrollToTop.astro'
-import {t}from '../i18n/utils'
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Profile from '@components/Profile.astro'
+import Comment from '@components/Comment.astro'
+import Toc from '@components/Toc.astro'
+import {site,comment} from "@/consts";
+import ScrollToTop from '@components/ScrollToTop.astro'
+import {t}from '@/i18n/utils'
 
-const {frontmatter = {comment: false, donate: false, toc: false, mathjax: false, mermaid: false}} = Astro.props
+const {frontmatter = {comment: false, donate: false, toc: false, mathjax: false, mermaid: false},title,description} = Astro.props;
+
 ---
 
-<html lang="en">
-<BaseHead mathjax={frontmatter.mathjax} mermaid={frontmatter.mermaid} />
+<html lang="ja">
+<BaseHead mathjax={frontmatter.mathjax} mermaid={frontmatter.mermaid} title={title + " | " + site.title} description={description} />
 
-<body class="bg-skin-secondary">
+<body class="font-body bg-skin-secondary">
 <Header/>
-<main class="container p-4  pt-20 cursor-default text-skin-base min-h-full pb-32 relative" id="app">
+<div class="container p-4  pt-20 cursor-default text-skin-base min-h-full pb-32 relative" id="app">
   <div class="grid grid-cols-4 gap-8">
-    <div class="col-span-4 xl:col-span-3 space-y-4">
-      <button class="flex items-center text-md cursor-pointer hover:text-skin-active outline-none" style="background-color: inherit;" onclick="history.back()">
+    <main class="col-span-4 xl:col-span-3 space-y-4">
+      <!-- <button class="flex items-center text-md cursor-pointer hover:text-skin-active outline-none" style="background-color: inherit;" onclick="history.back()">
         <i class="ri-arrow-left-line mr-2"/>
         <span>{t('home.goBack')}</span>
-      </button>
+      </button> -->
       <slot/>
       {
         frontmatter.comment && comment.enable &&
         <Comment></Comment>
       }
-    </div>
-    <div class="hidden xl:block col-span-1 relative">
+    </main>
+    <aside class="hidden xl:block col-span-1 relative">
       <Profile></Profile>
       {
         frontmatter.toc &&
         <Toc></Toc>
       }
-    </div>
+    </aside>
     <ScrollToTop></ScrollToTop>
   </div>
+</div>
+<footer>
   <Footer/>
-</main>
+</footer>
 </body>
 </html>
 

@@ -1,12 +1,14 @@
 ---
-import CommentAside from "./CommentAside.astro";
-import {comment} from "../consts";
-import {getCollectionByName} from "../utils/getCollectionByName";
-import getUniqueTags from "../utils/getUniqueTags";
-import getCountByCategory from "../utils/getCountByCategory";
-import {sortPostsByDate} from "../utils/sortPostsByDate";
-import {site} from '../consts'
-import {t} from '../i18n/utils'
+import CommentAside from "@components/CommentAside.astro";
+import {comment} from "@/consts";
+import CategoriesList from "@components/CategoriesList.astro";
+import {getCollectionByName} from "@utils/getCollectionByName";
+import getUniqueTags from "@utils/getUniqueTags";
+import getCountByCategory from "@utils/getCountByCategory";
+import {sortPostsByDate} from "@utils/sortPostsByDate";
+import {site,categories} from '@/consts'
+import {t} from '@/i18n/utils'
+
 const blogs = await getCollectionByName('blog')
 let tagArr = getUniqueTags(blogs);
 let categoryCount = getCountByCategory(blogs);
@@ -14,54 +16,46 @@ let sortPosts = await sortPostsByDate(blogs);
 let resultPosts = sortPosts.splice(0, site.recentBlogSize);
 ---
 
-<div>
+<section class="shadow-lg rounded-lg bg-bland-sideberbackground/40">
   {
     Object.keys(categoryCount).length > 0 && (
-      <div class="aside-widget">
-        <i class="ri-folder-line menu-icon"/>{t('sidebar.categories')}
-      </div>
+      <h2 class="aside-widget bg-bland-sidebertitle/50 p-2 rounded-t-lg">
+        <i class="ri-folder-line menu-icon font-normal"/>{t('sidebar.categories')}
+      </h2>
     )
   }
-  {
-    Object.keys(categoryCount).map((category) => (
-      <a
-        class="my-1 truncate block hover:text-skin-active"
-        title={category + " (" + categoryCount[category] + ")"}
-        href={"/category/" + category}
-      >
-        {(category === 'uncategorized' ? t('sidebar.uncategorized') : category) + " (" + categoryCount[category] + ")"}
-      </a>
-    ))
-  }
-</div>
-<div>
+  <div class="px-2 pb-2">
+    <CategoriesList categories={categories} countList={categoryCount}></CategorisList>
+  </div>
+</section>
+<section class="shadow-lg rounded-lg bg-bland-sideberbackground/40">
   {
     tagArr.length > 0 && (
-      <div class="aside-widget">
-        <i class="ri-price-tag-3-line menu-icon"/>
+      <h2 class="aside-widget bg-bland-sidebertitle/50 p-2 rounded-t-lg">
+        <i class="ri-price-tag-3-line menu-icon font-normal"/>
         {t('sidebar.tags')}
-      </div>
+      </h2>
     )
   }
-  <div class="flex flex-wrap">
+  <div class="flex flex-wrap px-2 pb-2">
     {
       tagArr &&
       tagArr.map((tag) =>
-        <a class="inline-block truncate m-1 border p-1 text-sm rounded hover:text-skin-active" title={tag} href={"/tags/" + tag}>{tag}</a>
+        <a class="inline-block truncate m-1 p-2 text-sm text-slate-50 bg-green-600 transition hover:bg-slate-400" title={tag} href={"/tags/" + tag}>{tag}</a>
       )
     }
   </div>
-</div>
+</section>
 
-<div>
-  <div class="aside-widget">
-    <i class="ri-file-line menu-icon"></i> {t('sidebar.recentArticle')}
-  </div>
-  <div class="flex flex-col">
+<section class="shadow-lg rounded-lg bg-bland-sideberbackground/40">
+  <h2 class="aside-widget bg-bland-sidebertitle/50 p-2 rounded-t-lg">
+    <i class="ri-file-line menu-icon font-normal"></i> {t('sidebar.recentArticle')}
+  </h2>
+  <div class="flex flex-col px-2 pb-2">
     {
       resultPosts.map((post) => (
         <a
-          href={"/blog/" + post.slug}
+          href={"/post/" + post.slug}
           class="truncate cursor-pointr mt-1 hover:text-skin-active"
           title={post.data.title}
         >
@@ -70,6 +64,6 @@ let resultPosts = sortPosts.splice(0, site.recentBlogSize);
       ))
     }
   </div>
-</div>
+</section>
 
 {comment.enable && comment.type === "waline" && <CommentAside/>}

@@ -1,11 +1,13 @@
 import {en} from './en'
 import {zhCn} from './zhCn'
 import {cs} from './cs'
+import {ja} from './ja'
 import {config} from "../consts";
 
 const ui = {
   en,
-  'zh-cn':zhCn,
+  zhCn,
+  ja,
   cs
 }
 

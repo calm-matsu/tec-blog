@@ -16,13 +16,13 @@
  * beian {string} Chinese policy
  */
 export const site = {
-  title: 'Astro Theme Yi', // required
+  title: 'revo-Labo', // required
   favicon: '/favicon.svg', // required
-  description: 'Welcome to my independent blog website! ',
-  author: "Astro-Yi", // required
+  description: '主に技術情報をまとめています。',
+  author: "calm-matsu", // required
   avatar: '/avatar.png', // required
-  motto: 'Actions speak louder than words.',
-  url: 'https://astro-yi-nu.vercel.app',
+  motto: '主に技術情報をまとめています。',
+  url: 'https://labo.calm-dev.f5.si',
   recentBlogSize: 5,
   archivePageSize: 25,
   postPageSize: 10,
@@ -38,7 +38,7 @@ export const site = {
  */
 export const config = {
   busuanzi: false,
-  lang: 'en', // en | zh-cn
+  lang: 'ja', // en | zh-cn
   codeFoldingStartLines: 16, // Need to re-run the project to take effect
   ga: false // If you want to integrate with Google Analytics, just enter your GA-ID here.
 }
@@ -50,50 +50,84 @@ export const config = {
  * href {string}  link url
  * target {string} optional "_self|_blank" open in current window / open in new window
  */
-export const categories = [
-  {
-    name: "Blog",
-    iconClass: "ri-draft-line",
-    href: "/blog/1",
-  },
-  {
-    name: "Feed",
-    iconClass: "ri-lightbulb-flash-line",
-    href: "/feed/1",
-  },
+export const mainMenu = [
   {
     name: "Archive",
     iconClass: "ri-archive-line",
-    href: "/archive/1",
-  },
-  {
-    name: "Message",
-    iconClass: "ri-chat-1-line",
-    href: "/message",
+    href: "/archive/",
   },
   {
     name: "Search",
     iconClass: "ri-search-line",
-    href: "/search",
+    href: "/search/",
   },
   {
-    name: "More",
-    iconClass: "ri-more-fill",
-    href: "javascript:void(0);",
+    name: 'About',
+    iconClass: 'ri-information-line',
+    href: '/about/',
+  },
+]
+
+export const subMenu = [
+  {
+    name: "SiteTop",
+    href: "/",
+  },
+  {
+    name: "Contact",
+    href: "/contact/",
+  },
+  {
+    name: 'PrivacyPoricy',
+    href: '/privacy/',
+  },
+  {
+    name: 'Sitemap',
+    href: '/sitemap/',
+  },
+]
+
+export const categories = [
+  {
+    name: "技術",
+    slug: "tec",
     children: [
       {
-        name: 'About',
-        iconClass: 'ri-information-line',
-        href: '/about',
+        name: "してみた",
+        slug: "tec/try",
       },
       {
-        name: 'Friends',
-        iconClass: 'ri-user-5-line',
-        href: '/friends',
-        target: '_self',
+        name: "HowTo",
+        slug: "tec/howto",
+      },
+      {
+        name: "解説",
+        slug: "tec/explan",
       },
     ]
-  }
+  },
+  {
+    name: "日常",
+    slug: "diary",
+    children: [
+      {
+        name: "料理",
+        slug: "diary/cooking",
+      },
+      {
+        name: "買い物",
+        slug: "diary/shopping",
+      },
+    ]
+  },
+  {
+    name: "ポエム",
+    slug: "poem",
+  },
+  {
+    name: "未整理",
+    slug: "uncategorized",
+  },
 ]
 
 /**
@@ -101,29 +135,24 @@ export const categories = [
  */
 export const infoLinks = [
   {
-    icon: 'ri-telegram-fill',
-    name: 'telegram',
-    outlink: 'xxxxxxx',
-  },
-  {
-    icon: 'ri-twitter-fill',
+    icon: 'ri-twitter-x-fill',
     name: 'twitter',
-    outlink: 'xxxxxxx',
+    outlink: 'https://twitter.com/',
   },
   {
-    icon: 'ri-instagram-fill',
-    name: 'instagram',
-    outlink: 'xxxxxxx',
+    icon: 'ri-mastodon-fill',
+    name: 'mastodon',
+    outlink: 'https://mstdn.jp/',
   },
   {
     icon: 'ri-github-fill',
     name: 'github',
-    outlink: 'https://github.com/cirry',
+    outlink: 'https://github.com/',
   },
   {
     icon: 'ri-rss-fill',
     name: 'rss',
-    outlink: 'https://astro-yi-nu.vercel.app/rss.xml',
+    outlink: site.url+'/rss.xml',
   }
 ]
 

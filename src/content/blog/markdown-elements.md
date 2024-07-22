@@ -105,6 +105,15 @@ var foo = function (bar) {
 console.log(foo(5));
 ```
 
+```js
+// 変数
+var foo = function (bar) {
+	return bar++;
+};
+
+console.log(foo(5));
+```
+
 ### Expressive code examples
 
 Adding a title

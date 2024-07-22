@@ -1,0 +1,42 @@
+---
+const { lists,lastLinkActive=false } = Astro.props;
+interface ListItem {
+  path: string;
+  name: string;
+}
+---
+<nav>
+  <ol>
+    <li>
+      <a 
+        class="hover:text-skin-active"
+        title="Home"
+        href="/"><i class="ri-home-4-fill mr-2"/>Home</a>
+    </li>
+   {
+     lists.map((list: ListItem, index: number) => (
+    <li>
+      {(lists.length - 1 !==index) || lastLinkActive ? (
+        <a
+          class="hover:text-skin-active"
+          title={list.name}
+          href={`/${list.path}`}
+        >{list.name}</a>
+       ) : (
+        <span>{list.name}</span>
+       )}
+    </li>
+     ))
+   }
+ </ol>
+</nav>
+
+<style>
+  li {
+    display: inline;
+  }
+  li:not(:first-child)::before {
+    content: ">";
+    padding: 0 4px;
+  }
+</style>

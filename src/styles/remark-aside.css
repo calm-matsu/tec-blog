@@ -1,8 +1,13 @@
 :root {
-  --ra-color-note: #428bca;
-  --ra-color-tip: #5cb85c;
-  --ra-color-caution: #f0ad4e;
-  --ra-color-danger: #d9534f;
+  --ra-color-note: rgb(66, 139, 202);
+  --ra-color-tip: rgb(92, 184, 92);
+  --ra-color-caution: rgb(240, 173, 78);
+  --ra-color-danger: rgb(217, 83, 79);
+
+  --ra-bgcolor-note: rgba(66, 139, 202,0.2);
+  --ra-bgcolor-tip: rgba(92, 184, 92,0.2);
+  --ra-bgcolor-caution: rgba(240, 173, 78,0.2);
+  --ra-bgcolor-danger: rgba(217, 83, 79,0.2);
 }
 
 .remark-aside {
@@ -22,6 +27,7 @@
 
 .remark-aside--note {
   border-left-color: var(--ra-color-note);
+  background-color: var(--ra-bgcolor-note);
 }
 .remark-aside--note svg {
   fill: var(--ra-color-note);
@@ -32,6 +38,7 @@
 
 .remark-aside--tip {
   border-left-color: var(--ra-color-tip);
+  background-color: var(--ra-bgcolor-tip);
 }
 .remark-aside--tip svg {
   fill: var(--ra-color-tip);
@@ -42,6 +49,7 @@
 
 .remark-aside--caution {
   border-left-color: var(--ra-color-caution);
+  background-color: var(--ra-bgcolor-caution);
 }
 .remark-aside--caution svg {
   fill: var(--ra-color-caution);
@@ -52,6 +60,7 @@
 
 .remark-aside--danger {
   border-left-color: var(--ra-color-danger);
+  background-color: var(--ra-bgcolor-danger);
 }
 .remark-aside--danger svg {
   fill: var(--ra-color-danger);

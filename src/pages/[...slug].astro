@@ -1,0 +1,33 @@
+---
+import {getCollection} from 'astro:content';
+import type {CollectionEntry} from 'astro:content';
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+
+export async function getStaticPaths() {
+  const pages = (await getCollection('page')).filter(({data}) => {
+    return import.meta.env.PROD ? !data.draft : true
+  });
+  return pages.map(entry => ({
+    params: {slug: entry.slug}, props: {entry,},
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'page'>;
+}
+
+const {entry} = Astro.props;
+const {Content} = await entry.render();
+
+---
+<IndexPage title={entry.data.title} sitetitle={true}>
+  <Breadcrumb lists={[{name:entry.data.title,path:entry.slug}]} />
+  <article class="markdown-body">
+    <header class="border-b-1">
+      <h1 class="break-all text-4xl font-bold font-title">{entry.data.title}</h1>
+    </header>
+    <Content/>
+  </article>
+</IndexPage>
+

@@ -3,6 +3,10 @@
 @import "remixicon/fonts/remixicon.css";
 @import "tocbot/dist/tocbot.css";
 @import "remark-aside.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@800&display=swap&text=revo-Lab');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +17,7 @@
 }
 
 /**
-覆写tailwindcss 默认样式
+tailwindcss のデフォルト スタイルをオーバーライドする
  */
 
 html {
@@ -23,6 +27,7 @@ html {
 
 body {
   height: 100%;
+  @apply text-base;
 }
 
 ol,
@@ -41,7 +46,8 @@ menu {
     --color-fill-secondary: 251, 251, 251;
     --color-card: 241, 241, 241;
     --color-text: 80, 73, 69;
-    --color-text-active: 181, 118, 20;
+    --color-text-active: 24, 145, 226;
+    --color-text-active-header: 169, 215, 245;
     --color-border: 104, 157, 106;
     --color-border-active: 14, 192, 124;
     --color-modal: 52, 58, 64;
@@ -52,7 +58,8 @@ menu {
     --color-fill-secondary: 52, 58, 64;
     --color-card: 40, 42, 54;
     --color-text: 249, 244, 227;
-    --color-text-active: 250, 189, 47;
+    --color-text-active: 24, 145, 226;
+    --color-text-active-header: 169, 215, 245;
     --color-border: 214, 93, 14;
     --color-border-active: 7, 102, 120;
     --color-modal: 251, 251, 251;
@@ -68,29 +75,61 @@ menu {
     display: block;
   }
 
+  /* 見出し */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-title font-bold leading-tight;
+  }
+
+  .markdown-body > h2 {
+    @apply border-l-8 border-bland-heading1 bg-bland-heading1/25 p-2 pl-4
+  }
+  .markdown-body > h3 {
+    @apply border-l-8 border-bland-heading1 p-2 pl-4;
+  }
+  .markdown-body > h4 {
+    @apply border-l-4 border-bland-heading1 p-1 pl-2;
+  }
+  .markdown-body > h5,
+  .markdown-body > h6 {
+    @apply border-l-2 border-bland-heading1 p-1 pl-2;
+  }
+
+  /* 脚注 */
+  .markdown-body .footnotes {
+    @apply bg-slate-400/25 p-4;
+  }
+  .markdown-body .footnotes h2 {
+    @apply m-2;
+  }
+
 }
 
 @layer components {
 
-  /* 导航栏的按钮样式 */
+  /* ナビゲーションバーボタンのスタイル */
   .header-link-active {
-    @apply underline underline-offset-4 decoration-wavy decoration-skin-active;
+    @apply decoration-skin-activeHeader;
   }
 
   .header-link-hover {
-    @apply underline underline-offset-4 decoration-wavy decoration-skin-base;
+    @apply decoration-skin-base text-skin-activeHeader;
   }
 
   .header-btn {
-    @apply cursor-pointer border rounded py-1 px-2 bg-skin-fill hover:text-skin-active mx-2 z-10
+    @apply cursor-pointer border rounded py-1 px-2 bg-skin-fill hover:text-skin-activeHeader mx-2 z-10
   }
 
-  /*侧边栏每个栏目共有样式*/
+  /*サイドバー各列共通のスタイル*/
   .aside-widget {
     @apply flex items-center w-full border-b mb-2;
   }
 
-  /* 侧边最近评论列表样式 */
+  /* サイドの最近のコメントリストのスタイル */
   .waline-comment-content {
     @apply p-1 overflow-auto max-h-72 break-words hover:text-skin-active;
   }
@@ -107,7 +146,7 @@ menu {
     @apply text-xl mr-2
   }
 
-  /* markdown内容图片样式 */
+  /* markdownコンテンツの画像スタイル */
   .image-cols-2 {
     @apply grid gap-4 grid-cols-2 my-2
   }
@@ -125,7 +164,7 @@ menu {
   scroll-behavior: smooth;
 }
 
-/* 分割线 */
+/* 分割線 */
 .divider-vertical {
   position: relative;
   top: -.06em;
@@ -158,7 +197,7 @@ menu {
   background-color: rgba(var(--color-text), .3);
 }
 
-/* 重写markdown样式 */
+/* markdownスタイルを書き換える */
 .markdown-body {
   background-color: inherit;
 }
@@ -172,7 +211,7 @@ a {
   line-height: 26px;
 }
 
-/* 修改waline评论侧边栏样式 */
+/* waline コメントのサイドバーのスタイルを変更する */
 .waline-comment-content-author {
   text-align: end;
   margin-bottom: 6px;
@@ -183,14 +222,14 @@ a {
   display: inline-block;
 }
 
-/*  网站列表样式清空 */
+/*  Webサイトリストのスタイルをクリア */
 ul,
 ol,
 menu {
   list-style: none;
 }
 
-/* markdown 列表样式 */
+/* markdown リストスタイル */
 .markdown-body menu,
 .markdown-body ul {
   list-style: disc;
@@ -200,12 +239,14 @@ menu {
   list-style: decimal;
 }
 
+/* 画像を中央に配置する */
+/*
 .markdown-body img {
-  /* 修改图片居中 */
-  /* margin: 0 auto; */
+   margin: 0 auto;
 }
+*/
 
-/* 修改滚动条样式 */
+/* スクロールバーのスタイルを変更する */
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -218,7 +259,7 @@ menu {
   border-radius: 4px;
 }
 
-/* 置顶文字样式 */
+/* スティッキーテキストスタイル */
 .post-sticky {
   font-weight: 400;
   height: 20px;
@@ -234,8 +275,8 @@ menu {
   border-radius: 2px 6px;
 }
 
-/* 修复toc 样式问题*/
-/*  覆写toc选中的链接文字颜色 */
+/* 目次スタイルの問題を修正*/
+/*  選択したリンクのテキストの色をオーバーライド */
 .is-active-link {
   color: rgb(var(--color-text-active)) !important;
 }
@@ -244,7 +285,7 @@ menu {
   color: rgb(var(--color-text-active));
 }
 
-/* tocbot自带的border样式会穿透有问题，以被覆写 */
+/* tocbot に付属の境界線スタイルには貫通の問題があり、上書きされる可能性があります */
 .toc-link::before {
   display: none !important;
 }

@@ -6,7 +6,7 @@
       "es2020"
     ],
     "target": "es2019",
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "isolatedModules": false,
     "resolveJsonModule": true,
     "sourceMap": true,
@@ -14,15 +14,21 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": false,
     "strictNullChecks": false,
-    "allowJs": false,
+    //"allowJs": true,
     "checkJs": false,
     "baseUrl": ".",
     "paths": {
-      "$components": [
-        "./src/components"
+      "@components/*": [
+        "src/components/*"
       ],
-      "$": [
-        "./src"
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@/*": [
+        "src/*"
       ]
     },
     "types": [
@@ -32,12 +38,13 @@
     "jsxImportSource": "solid-js"
   },
   "include": [
-    "src/**/*.d.ts",
-    "src/**/*.js",
-    "src/**/*.ts",
+    "**/*.d.ts",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.astro"
   ],
   "exclude": [
-    "src/**/.astro"
+    "node_modules"
 
   ]
 }

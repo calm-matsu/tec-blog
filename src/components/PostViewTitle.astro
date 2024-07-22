@@ -2,7 +2,16 @@
 import {formatDate} from "../utils/formatDate";
 import {dealLabel} from "../utils/dealLabel";
 import {t} from '../i18n/utils'
-const {title, date, slug, category, tags, sticky = false, draft = false} = Astro.props
+import {categories} from "@/consts";
+import getCategories from "@utils/getCategories";
+
+const {title, date, slug, category, tags, lastModified, sticky = false, draft = false} = Astro.props
+
+// カテゴリ一覧を配列で返す
+const flatCategoriesList = getCategories(categories);
+const path = flatCategoriesList.find((cat) => cat.slug===category);
+const pathname = path.full.map((nowpath)=> nowpath.name );
+
 ---
 
 <div class="text-skin-base">
@@ -10,7 +19,7 @@ const {title, date, slug, category, tags, sticky = false, draft = false} = Astro
   <div class="flex items-center">
     {sticky > 0 &&
       <div class="post-sticky select-none">{t('home.sticky')}</div>}
-    <a class="flex text-xl underline-offset-4 cursor-pointer decoration-skin-base decoration-wavy hover:underline hover:decoration-sky-500 font-bold" href={slug}>
+    <a class="flex text-xl underline-offset-4 cursor-pointer decoration-skin-base hover:text-blue-700 hover:underline hover:decoration-blue-700 font-bold font-title" href={slug}>
       {title}
     </a>
   </div>
@@ -21,6 +30,15 @@ const {title, date, slug, category, tags, sticky = false, draft = false} = Astro
       date && (
         <i class="ri-calendar-2-fill"/>
         <div>{formatDate(date)}</div>
+      )
+    }
+
+    <!-- update -->
+    {
+      lastModified && (
+        <div class="divider-vertical"/>
+        <i class="ri-calendar-check-fill"></i>
+        <div class="tag">{t('post.lastUpdated')}：{formatDate(lastModified)}</div>
       )
     }
 
@@ -39,7 +57,7 @@ const {title, date, slug, category, tags, sticky = false, draft = false} = Astro
       category && dealLabel(category).filter(item => item !== 'uncategorized').map((categoryName) => (
         <div class="divider-vertical"/>
         <i class="ri-folder-3-line"/>
-        <a href={"/category/" + categoryName} class="text-wrap break-all hover:text-skin-active">{categoryName}</a>
+        <a href={"/category/" + categoryName} class="text-wrap break-all hover:text-skin-active">{pathname.join("/")}</a>
       ))
     }
 

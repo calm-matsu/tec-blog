@@ -1,57 +1,58 @@
 ---
-import {getCollectionByName} from "../utils/getCollectionByName";
-import getUniqueTags from "../utils/getUniqueTags";
-import getCountByCategory from "../utils/getCountByCategory";
-import HeaderLink from './HeaderLink.astro';
-import ThemeIcon from './ThemeIcon.astro'
-import MenuIcon from './MenuIcon.astro'
-import {site, categories, infoLinks} from '../consts';
-import AsideIcon from "./SidebarIcon.astro";
-import {t} from "../i18n/utils";
-import getCountByTagName from "../utils/getCountByTagName";
-const blogs = await getCollectionByName('blog')
+import {getCollectionByName} from "@utils/getCollectionByName";
+import getUniqueTags from "@utils/getUniqueTags";
+import getCountByCategory from "@utils/getCountByCategory";
+import HeaderLink from '@components/HeaderLink.astro';
+import ThemeIcon from '@components/ThemeIcon.astro'
+import MenuIcon from '@components/MenuIcon.astro'
+import CategoriesList from "@components/CategoriesList.astro";
+import {site, mainMenu, infoLinks, categories} from '@/consts';
+import AsideIcon from "@components/SidebarIcon.astro";
+import {t} from "@/i18n/utils";
+import getCountByTagName from "@utils/getCountByTagName";
+const blogs = await getCollectionByName('blog');
 let tagArr = getUniqueTags(blogs);
 let categoryCount = getCountByCategory(blogs);
 let tagCount = getCountByTagName(blogs);
 ---
 
-<header class="fixed top-0 w-full bg-skin-fill text-skin-base z-10">
-  <div class="flex items-center justify-between container">
-    <div class="block xl:hidden">
+<header class="fixed top-0 w-full bg-gradient-to-b from-bland-menu to-bland-menu/85 text-slate-100 z-10">
+  <div class="flex items-stretch justify-between container">
+    <div class="flex items-stretch xl:hidden">
       <MenuIcon></MenuIcon>
     </div>
-    <a class="text-2xl p-4" href="/">{site.title}</a>
-    <div class="flex items-center">
+    <a class="text-2xl p-4 font-blogtitle font-extrabold" href="/">{site.title}</a>
+    <div class="flex items-stretch">
       <div class="hidden xl:block">
-        <div class="flex items-center space-x-5 pr-4">
+        <nav class="flex items-stretch space-x-5 pr-4 h-full">
           {
-            categories.map(category => (
-              <HeaderLink href={category.href} icon={category.iconClass} target={category.target ? category.target : '_self'} children={category.children ? category.children : []}>{category.name}</HeaderLink>
+            mainMenu.map(menuItem => (
+              <HeaderLink href={menuItem.href} icon={menuItem.iconClass} target={menuItem.target ? menuItem.target : '_self'} children={menuItem.children ? menuItem.children : []}>{menuItem.name}</HeaderLink>
             ))
           }
-        </div>
+        </nav>
       </div>
       <ThemeIcon></ThemeIcon>
-      <div class="block xl:hidden">
+      <div class="flex items-stretch xl:hidden">
         <AsideIcon></AsideIcon>
       </div>
     </div>
   </div>
   <div id="mobile-menu" class="hidden text-center overflow-y-auto pb-8" style="height: calc(100vh - 64px)">
     {
-      categories.map((category) => (
+      mainMenu.map((menuItem) => (
         <div class="py-2">
-          <a class=" hover:text-skin-active" href={category.href}>
-            <i class={category.iconClass}/>
-            <span>{category.name}</span>
+          <a class=" hover:text-skin-active" href={menuItem.href}>
+            <i class={menuItem.iconClass}/>
+            <span>{menuItem.name}</span>
           </a>
           {
-            category.children && category.children.length > 0 &&
+            menuItem.children && menuItem.children.length > 0 &&
             <div class="divider-horizontal"></div>
           }
           <div class="space-y-4 text-sm">
             {
-              category.children && category.children.map(sub =>
+              menuItem.children && menuItem.children.map(sub =>
                 (
                   <a class="block hover:text-skin-active" href={sub.href}>
                     <i class={sub.iconClass}/>
@@ -86,16 +87,12 @@ let tagCount = getCountByTagName(blogs);
           </div>
         )
       }
-      {
-        Object.keys(categoryCount).map((category) => (
-          <div class="my-2 break-all truncate">
-            <a class="hover:text-skin-active" title={category + " (" + categoryCount[category] + ")"} href={"/category/" + category}>
-              {category + " (" + categoryCount[category] + ")"}
-            </a>
-          </div>
+      <div class="px-2 pb-2 flex justify-center">
+        <div class="text-left">
+        <CategoriesList categories={categories} countList={categoryCount}></CategorisList>
+        </div>
+      </div>
 
-        ))
-      }
       {
         tagArr.length > 0 && (
           <div class="divider-horizontal-mini"></div>

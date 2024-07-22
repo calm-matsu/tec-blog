@@ -1,0 +1,60 @@
+---
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+import PostView from '@components/PostView.astro'
+import Pagination from "@components/Pagination.astro";
+import getUniqueTags from "@utils/getUniqueTags";
+import getPostsByTag from "@utils/getPostsByTag";
+import SearchTitle from "@components/SearchTitle.astro";
+import {site} from '@/consts';
+import {sortPostsByDate} from "@utils/sortPostsByDate";
+import {getCollectionByName} from "@utils/getCollectionByName";
+import type { Page } from 'astro';
+
+export async function getStaticPaths({paginate}) {
+  const allPosts = await getCollectionByName("blog");
+  const uniqueTags = getUniqueTags(allPosts).filter((tag) => tag);
+  console.log(uniqueTags);
+  return uniqueTags.flatMap((tag) => {
+    const filteredPosts = getPostsByTag(allPosts, tag);
+    const resultPosts = sortPostsByDate(filteredPosts);
+    console.log("tag="+tag+",pagesize="+site.postPageSize);
+    return paginate(resultPosts, {
+      params: { tag: tag },
+      props: {tag: tag},
+      pageSize: site.postPageSize
+    });
+  });
+}
+
+interface Props {
+  page: Page;
+  tag: string;
+}
+
+const { page } = Astro.props;
+const {tag} = Astro.props;
+const fullPath = [
+  {name:"タグ別",path:"tags/"},
+  {name:tag,path:"tags/"+tag},
+];
+---
+
+<IndexPage title={"タグ："+tag} sitetitle={true}>
+  <Breadcrumb lists={fullPath} />
+  <h1 class="break-all text-4xl font-bold font-title"><i class="ri-price-tag-3-line font-normal"/>「{tag}」の記事一覧</h1>
+  {
+    page.data.map(blog =>
+      <PostView blog={blog}></PostView>)
+  }
+  {
+    page.lastPage > 1 ?
+      <Pagination
+        currentPage={page.currentPage}
+        totalPage={page.lastPage}
+        prefixUrl={'/tags/'+tag+'/'}
+        firstPageUrl={'/tags/'+tag}
+        url={page.url}
+      /> : ''
+  }
+</IndexPage>

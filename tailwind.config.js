@@ -32,34 +32,43 @@ export default {
     container: {
       center: true,
     },
-    textColor: {
-      skin: {
-        base: withOpacity("--color-text"),
-        active: withOpacity("--color-text-active")
-      },
+
+    fontFamily: {
+      body: ["Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo","sans-serif"],
+      title: ["Noto Sans JP", "sans-serif"],
+      blogtitle: ["Montserrat Alternates", "sans-serif"],
     },
 
-    backgroundColor: {
-      skin: {
-        fill: withOpacity("--color-fill"),
-        secondary: withOpacity("--color-fill-secondary"),
-        card: withOpacity("--color-card"),
-        modal: withOpacity("--color-modal"),
-      },
-    },
-    textDecorationColor: {
-      skin: {
-        base: withOpacity("--color-border"),
-        active: withOpacity("--color-text-active")
-      }
-    },
-    borderColor: {
-      skin: {
-        normal: withOpacity('--color-text'),
-        base: withOpacity('--color-border'),
-      },
-    },
+
     extend: {
+      textColor: {
+        skin: {
+          base: withOpacity("--color-text"),
+          active: withOpacity("--color-text-active"),
+          activeHeader: withOpacity("--color-text-active-header"),
+        },
+      },
+      backgroundColor: {
+        skin: {
+          fill: withOpacity("--color-fill"),
+          secondary: withOpacity("--color-fill-secondary"),
+          card: withOpacity("--color-card"),
+          modal: withOpacity("--color-modal"),
+        },
+      },
+      textDecorationColor: {
+        skin: {
+          base: withOpacity("--color-border"),
+          active: withOpacity("--color-text-active"),
+          activeHeader: withOpacity("--color-text-active-header"),
+        }
+      },
+      borderColor: {
+        skin: {
+          normal: withOpacity('--color-text'),
+          base: withOpacity('--color-border'),
+        },
+      },
       colors: {
         custom: {
           title: '#555',
@@ -73,6 +82,17 @@ export default {
           third: "#f5ebe0",
           forth: "#e3d5ca",
           fifth: "#d5bdaf"
+        },
+        bland:{
+          DEFAULT:"#D04F3E",
+          theme:"#D04F3E",
+          background:"#E64733",
+          menu:"#A64538",
+          heading1:"#E1442F",
+          heading2:"#F58C7F",
+          sidebertitle:"#F17363",
+          sideberbackground:"#F7ACA1",
+          sideberprofile:"#CD9187",
         }
       }
     },

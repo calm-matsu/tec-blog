@@ -1,0 +1,22 @@
+---
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+import getUniqueTags from "@utils/getUniqueTags";
+import {getCollectionByName} from "@utils/getCollectionByName";
+
+const blogs = await getCollectionByName('blog')
+const tagArr = getUniqueTags(blogs);
+---
+
+<IndexPage title={"タグ一覧"} sitetitle={true}>
+  <Breadcrumb lists={[{name:"タグ別",path:"tags/"}]} />
+  <h1 class="break-all text-4xl font-bold font-title"><i class="ri-price-tag-3-line font-normal"/>タグ一覧</h1>
+  <div class="flex flex-wrap px-2 pb-2">
+    {
+      tagArr &&
+      tagArr.map((tag) =>
+        <a class="inline-block truncate m-1 p-2 text-sm text-slate-50 bg-green-600 transition hover:bg-slate-400" title={tag} href={"/tags/" + tag}>{tag}</a>
+      )
+    }
+  </div>
+</IndexPage>

@@ -9,28 +9,15 @@ import remarkDirective from "remark-directive";
 import {remarkAsides} from  './src/remarkPlugin/remark-asides.js'
 
 import expressiveCode from "astro-expressive-code";
-import {pluginLineNumbers} from '@expressive-code/plugin-line-numbers'
+//import {pluginLineNumbers} from '@expressive-code/plugin-line-numbers'
 
 import {visit} from 'unist-util-visit'
 import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sections'
 
-function customRehypeLazyLoadImage() {
-  return function (tree) {
-    visit(tree, function (node) {
-      if (node.tagName === 'img') {
-        node.properties['data-src'] = node.properties.src
-        node.properties.src = '/spinner.gif'
-        node.properties['data-alt'] = node.properties.alt
-        node.properties.alt = 'default'
-      }
-    })
-  }
-}
-
 export default defineConfig({
-  site: 'https://astro-yi-nu.vercel.app',
+  site: 'https://labo.calm-dev.f5.si',
   integrations: [sitemap(), tailwind(), solid(), expressiveCode({
-    plugins: [pluginLineNumbers(), pluginCollapsibleSections()],
+    plugins: [pluginCollapsibleSections()],
     themes: ["github-dark", "github-light"],
     styleOverrides: {
       codeFontFamily: "jetbrains-mono",
@@ -39,7 +26,10 @@ export default defineConfig({
     themeCssSelector: (theme) => `[data-theme="${theme.type}"]`
   }), mdx()],
   markdown: {
-    remarkPlugins: [remarkModifiedTime, resetRemark, remarkDirective, remarkAsides({}) ],
-    rehypePlugins: [customRehypeLazyLoadImage],
+    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}) ],
+    rehypePlugins: [],
+    remarkRehype: {
+      footnoteLabel: "脚注"
+    },
   }
 });

@@ -1,0 +1,50 @@
+---
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+import getCategories from "@utils/getCategories";
+import {getCollectionByName} from "@utils/getCollectionByName";
+import getCountByCategory from "@utils/getCountByCategory";
+import {categories} from "@/consts";
+import CategoriesList from "@components/CategoriesList.astro";
+
+const categorisOrgArr = [
+    { name: "技術", slug: "tec", children:[
+        { name: "してみた", slug: "tec/try" },
+        { name: "HowTo", slug: "tec/howto" },
+        { name: "解説", slug: "tec/explan", children:[
+          { name: "PHP", slug: "tec/explan/php" },
+          { name: "Java", slug: "tec/explan/java" },
+        ] },
+    ] },
+    { name: "ポエム", slug: "poem" },
+    { name: "未整理", slug: "uncategorized" },
+];
+
+// カテゴリ一覧を配列で返す
+const flatCategoriesList = getCategories(categories);
+console.log(flatCategoriesList);
+
+// カテゴリごとの投稿数を取得
+const blogs = await getCollectionByName('blog');
+const categoryCount = getCountByCategory(blogs);
+---
+<IndexPage title={"カテゴリ一覧"} sitetitle={true}>
+  <!-- <Debug {page} /> -->
+  <Breadcrumb lists={[{name:"カテゴリ別",path:"category/"}]} />
+  <h1 class="break-all text-4xl font-bold font-title">カテゴリ一覧</h1>
+  <!-- <div class="px-2 pb-2">{
+    flatCategoriesList.map((category) => (
+      <a
+        class="my-1 truncate block hover:text-skin-active"
+        title={category.name}
+        href={"/category/" + category.slug}
+      >
+        {category.name}
+      </a>
+    ))
+  }</div>-->
+
+  <div class="px-2 pb-2">
+    <CategoriesList categories={categories} countList={categoryCount}></CategorisList>
+  </div>
+</IndexPage>
