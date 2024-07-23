@@ -7,6 +7,7 @@ import {remarkModifiedTime} from "./src/remarkPlugin/remark-modified-time.mjs";
 import {resetRemark} from "./src/remarkPlugin/reset-remark.js";
 import remarkDirective from "remark-directive";
 import {remarkAsides} from  './src/remarkPlugin/remark-asides.js'
+import remarkBreaks from "remark-breaks";
 
 import expressiveCode from "astro-expressive-code";
 //import {pluginLineNumbers} from '@expressive-code/plugin-line-numbers'
@@ -26,7 +27,7 @@ export default defineConfig({
     themeCssSelector: (theme) => `[data-theme="${theme.type}"]`
   }), mdx()],
   markdown: {
-    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}) ],
+    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}), remarkBreaks, remarkBreaks ],
     rehypePlugins: [],
     remarkRehype: {
       footnoteLabel: "脚注"
