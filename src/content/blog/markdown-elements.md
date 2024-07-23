@@ -3,6 +3,10 @@ title: "A post of Markdown elements"
 description: "This post is for testing and listing a number of different markdown elements"
 date: 2024-03-19
 tags: ["test", "markdown"]
+mermaid: true
+mathjax: true
+draft: true
+sticky: 1
 ---
 
 ## This is a H2 Heading
@@ -142,6 +146,42 @@ function demo() {
 
 [Expressive Code](https://expressive-code.com/) can do a ton more than shown here, and includes a lot of [customisation](https://expressive-code.com/reference/configuration/).
 
+### Integration with Expressive Code
+
+For more usage, please refer to the official website [expressive-code](https://expressive-code.com/).
+
+```js title="line-markers.js" del={2} ins={3-4} {6}
+function demo() {
+  console.log('this line is marked as deleted')
+  // This line and the next one are marked as inserted
+  console.log('this is the second inserted line')
+
+  return 'this line uses the neutral default marker type'
+}
+```
+
+### Code folding is supported by default
+
+```js
+var myArr = [1,2]
+console.log(myArr)
+
+var myObj = {a: 1, b: 2}
+
+for(let key of myArr){
+  console.log(key)
+}
+
+var it = myArr[Symbol.iterator]()
+it.next() // {value: 1, done: false}
+
+// VM704:12 Uncaught TypeError: myObj is not iterable
+for(let key of myObj){
+  console.log(key)
+}
+
+```
+
 ## Tables
 
 | Option | Description                                                               |
@@ -162,3 +202,239 @@ Right aligned columns
 ## Links
 
 [Content from markdown-it](https://markdown-it.github.io/)
+
+## image
+
+### Display remote links
+
+```md
+![](https://share.cirry.cn/images/astro-yi/avatar.png)
+```
+
+![](https://share.cirry.cn/images/astro-yi/avatar.png)
+
+### Show Local Pictures
+
+```md
+![](/avatar.png)
+```
+
+![](/avatar.png)
+
+### Customize Local Images
+
+Use html, set`style="width: 200px;"`
+
+```html
+<img src="/spinner.gif" data-src="/avatar.png" style="width:200px;">
+```
+
+<img src="/spinner.gif" data-src="/avatar.png" style="width:200px;">
+
+### One row, two columns.
+
+```html
+
+<div class="image-cols-2">
+  <img src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg">
+</div>
+```
+
+<div class="image-cols-2">
+  <img src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg" >
+</div>
+
+
+For lazy loading: we need to enter `/spinner.gif` in `src`, and the real address of the image in `data-stc`. If you don't want to use this feature, just enter the image's real address in `src`.
+
+### One row, three columns
+
+```html
+
+<div class="image-cols-3">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-20523844.jpeg">
+</div>
+```
+
+<div class="image-cols-3">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg" >
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-20523844.jpeg" >
+</div>
+
+### One row, four columns
+
+```html
+
+<div class="image-cols-4">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-20523844.jpeg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+</div>
+```
+
+<div class="image-cols-4">
+  <img class="object-fill" src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img class="object-fill" src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg" >
+  <img class="object-fill" src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-20523844.jpeg" >
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+</div>
+
+### Actually, it's all right.
+
+You can actually display it however you want, you just need to know a little bit about TailwindCss.
+
+```html
+<div class="image-cols-2">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+  <img class="row-span-2" src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-jeffer-berrire-9027257.jpg">
+  <img src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-kyle-miller-20582700.jpg">
+</div>
+```
+
+<div class="image-cols-2">
+<img src="/spinner.gif" class="object-fill" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8536415.jpeg">
+<img class="row-span-2 object-fill" src="/spinner.gif" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-8907866.jpeg">
+<img src="/spinner.gif" class="object-fill" data-src="https://share.cirry.cn/images/astro-yi/pexels-photo-20523844.jpeg">
+</div>
+
+### Remember
+
+The theme provides three simple style classes that you can use directly.
+
++ One row and two columns: `class="image-cols-2"`.
++ one row and three columns: `class="image-cols-3"`.
++ one row and four columns: `class="image-cols-4"`.
+
+If you want a more complex display, check out TailwindCss.
+
+
+## callout
+
+````markdown
+:::tip[Customized Title]
+hello world
+:::
+
+:::note
+note
+
+```js
+console.log(hello world)
+```
+
+:::
+
+:::caution
+caution
+:::
+
+:::danger
+danger
+:::
+
+````
+
+:::tip[Customized Title]
+hello world
+:::
+
+:::note
+note
+
+```js
+console.log(hello world)
+```
+
+:::
+
+:::caution
+caution
+:::
+
+:::danger
+danger
+:::
+
+## option style
+### Support mermaid
+
+Use:
+
++ start with **```mermaid**
++ end with **```**
++ set markdown frontmatter `mermaid: true`.
+
+Mermaid Code:
+
+```html title="mermaid.md"
+classDiagram
+    note "From Duck till Zebra"
+    Animal <|-- Duck
+    note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+        +String beakColor
+        +swim()
+        +quack()
+    }
+    class Fish{
+        -int sizeInFeet
+        -canEat()
+    }
+    class Zebra{
+        +bool is_wild
+        +run()
+    }
+```
+
+Result:
+
+```mermaid
+classDiagram
+    note "From Duck till Zebra"
+    Animal <|-- Duck
+    note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+        +String beakColor
+        +swim()
+        +quack()
+    }
+    class Fish{
+        -int sizeInFeet
+        -canEat()
+    }
+    class Zebra{
+        +bool is_wild
+        +run()
+    }
+```
+
+### Support Mathjax
+
++ set markdown frontmatter `mathjax: true`.
+
+```yaml title="Mathjax.md"
+---
+mathjax: true
+---
+$$ \displaystyle\sum_{i=0}^N\int_{a}^{b}g(t,i)\text{d}t $$
+```
+
+$$ \displaystyle\sum_{i=0}^N\int_{a}^{b}g(t,i)\text{d}t $$
