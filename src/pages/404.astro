@@ -3,6 +3,11 @@ import IndexPage from "src/layouts/IndexPage.astro";
 ---
 
 <IndexPage>
-  <div>404</div>
-  <div>Oops,This Page Could Not Be Found!</div>
+  <div class="text-4xl text-center">404</div>
+  <div class="text-center">申し訳ありません。指定したページは見つかりませんでした。</div>
+  <ul class="flex m-2 justify-center">
+    <li class="m-2"><a class="hover:text-skin-active" href="/category/">カテゴリ一覧</a></li>
+    <li class="m-2"><a class="hover:text-skin-active" href="/tags/">タグ一覧</a></li>
+    <li class="m-2"><a class="hover:text-skin-active" href="/search">検索</a></li>
+  </ul>
 </IndexPage>
