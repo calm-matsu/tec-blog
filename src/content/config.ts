@@ -1,4 +1,4 @@
-import {defineCollection, z} from 'astro:content';
+import {defineCollection, reference, z} from 'astro:content';
 
 const blog = defineCollection({
   type: 'content',
@@ -16,6 +16,8 @@ const blog = defineCollection({
     toc: z.boolean().default(true).nullable(),
     donate: z.boolean().default(true).nullable(),
     comment: z.boolean().default(true).nullable(),
+    relatedPosts: z.array(reference('blog')).optional().nullable(),
+    footnote: z.array(z.string()).optional().nullable(),
   }),
 });
 

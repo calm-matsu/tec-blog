@@ -1,8 +1,9 @@
 ---
-import {getCollection} from 'astro:content';
+import {getCollection,getEntries} from 'astro:content';
 import type {CollectionEntry} from 'astro:content';
 import BlogPost from '@layouts/BlogPost.astro'
 import Breadcrumb from '@components/Breadcrumb.astro';
+import RelatedPosts from '@components/relatedPosts.astro'
 import PostViewCard from '@components/PostViewCard.astro'
 import PostTitle from "@components/PostTitle.astro";
 import ShareButton from "@components/ShareButton.astro";
@@ -48,6 +49,10 @@ const fullPath = [...path.full.map((nowCategory) =>{
   return { name:nowCategory.name, path:"category/"+nowCategory.slug };
 })];
 
+// フロントマターから関連記事を取得（なければnull）
+const relatedPosts = Array.isArray(entry.data.relatedPosts) && entry.data.relatedPosts.length
+  ? await getEntries(entry.data.relatedPosts): null;
+
 const currentPostIndex = sortPosts.findIndex(
   (postItem) => postItem.data.title === entry.data.title
 );
@@ -69,9 +74,24 @@ if (sortPosts[currentPostIndex + 1]) {
     <div class="markdown-body">
       <Content/>
     </div>
+    {
+      entry.data.footnote ? ( 
+        <aside class="my-4 p-4 bg-skin-card break-all">
+          <h2 class="text-xl font-bold font-title">追記</h2>
+          <ul class="list-disc ml-6 mt-2">
+            {
+              entry.data.footnote.map( note => <li>{note}</li> )
+            }
+          </ul>
+        </aside>
+      ):""
+    }
+    
+    { relatedPosts && <RelatedPosts posts={relatedPosts} /> }
     <aside>
       <ShareButton url={Astro.url} title={encodeURIComponent(entry.data.title + " | " + site.title)}></ShareButton>
     </aside>
+    <BlogFooter title={entry.data.title} url={'post/' + entry.slug} date={entry.data.date}></BlogFooter>
     <div class="divider-horizontal"></div>
     <aside class="h-8 text-skin-base">
       {
@@ -101,8 +121,9 @@ if (sortPosts[currentPostIndex + 1]) {
         )
       }
     </aside>
+    <div class="divider-horizontal"></div>
     <aside>
-      <h2>関連記事</h2>
+      <h2 class="text-center">以下の記事もどうぞ</h2>
       <div class="grid md:grid-cols-2">
         {
           similarPosts.map(post =>
@@ -110,7 +131,6 @@ if (sortPosts[currentPostIndex + 1]) {
         }
         </div>
     </aside>
-    <BlogFooter title={entry.data.title} url={'post/' + entry.slug} date={entry.data.date}></BlogFooter>
     {
       donate.enable && entry.data.donate &&
       <Donate></Donate>
