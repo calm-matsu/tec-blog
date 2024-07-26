@@ -1,5 +1,4 @@
 ---
-import CategoriesList from "@components/CategoriesList.astro";
 const {categories,countList} = Astro.props;
 ---
 <ul>
@@ -13,7 +12,7 @@ const {categories,countList} = Astro.props;
       >{category.name} ({
         category.slug in countList ? countList[category.slug] : "0"
       })</a></span>
-      <CategoriesList categories={category.children} countList={countList}></CategorisList></li> 
+      <Astro.self categories={category.children} countList={countList}></CategorisList></li> 
         {/*console.log(countList[category.slug])*/}
       ) : (
       <li><a
