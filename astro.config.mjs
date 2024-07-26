@@ -9,7 +9,7 @@ import remarkDirective from "remark-directive";
 import {remarkAsides} from  './src/remarkPlugin/remark-asides.js'
 import remarkBreaks from "remark-breaks";
 
-import expressiveCode from "astro-expressive-code";
+import expressiveCode,{ pluginFramesTexts } from "astro-expressive-code";
 //import {pluginLineNumbers} from '@expressive-code/plugin-line-numbers'
 
 //import {visit} from 'unist-util-visit'
@@ -20,6 +20,7 @@ export default defineConfig({
   integrations: [sitemap(), tailwind(), solid(), expressiveCode({
     plugins: [],
     themes: ["github-dark", "github-light"],
+    defaultLocale: "ja",
     styleOverrides: {
       codeFontFamily: "jetbrains-mono",
       uiFontFamily: "jetbrains-mono",
@@ -33,4 +34,9 @@ export default defineConfig({
       footnoteLabel: "脚注"
     },
   }
+});
+
+pluginFramesTexts.overrideTexts("ja", {
+  copyButtonTooltip: "クリップボードにコピー",
+  copyButtonCopied: "コピーしました",
 });
