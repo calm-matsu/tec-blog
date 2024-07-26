@@ -12,13 +12,13 @@ import remarkBreaks from "remark-breaks";
 import expressiveCode from "astro-expressive-code";
 //import {pluginLineNumbers} from '@expressive-code/plugin-line-numbers'
 
-import {visit} from 'unist-util-visit'
-import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sections'
+//import {visit} from 'unist-util-visit'
+//import {pluginCollapsibleSections} from '@expressive-code/plugin-collapsible-sections'
 
 export default defineConfig({
   site: 'https://labo.calm-dev.f5.si',
   integrations: [sitemap(), tailwind(), solid(), expressiveCode({
-    plugins: [pluginCollapsibleSections()],
+    plugins: [],
     themes: ["github-dark", "github-light"],
     styleOverrides: {
       codeFontFamily: "jetbrains-mono",
@@ -27,7 +27,7 @@ export default defineConfig({
     themeCssSelector: (theme) => `[data-theme="${theme.type}"]`
   }), mdx()],
   markdown: {
-    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}), remarkBreaks, remarkBreaks ],
+    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}), remarkBreaks ],
     rehypePlugins: [],
     remarkRehype: {
       footnoteLabel: "脚注"
