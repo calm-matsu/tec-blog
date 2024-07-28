@@ -107,20 +107,6 @@ export const categories = [
     ]
   },
   {
-    name: "日常",
-    slug: "diary",
-    children: [
-      {
-        name: "料理",
-        slug: "diary/cooking",
-      },
-      {
-        name: "買い物",
-        slug: "diary/shopping",
-      },
-    ]
-  },
-  {
     name: "ポエム",
     slug: "poem",
   },
