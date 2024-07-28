@@ -168,6 +168,21 @@ menu {
     margin-top: 0;
   }
 
+  /* プロフィール表示の書式 */
+  .profile-text ul {
+    list-style: disc !important;
+    margin: 0 0 0 15px;
+  }
+  .profile-text p {
+    margin: 0.5em 0;
+  }
+  .profile-text a {
+    color: rgb(var(--color-text-active));
+  }
+  .profile-text a:hover {
+    text-decoration:underline;
+  }
+
 }
 
 * {

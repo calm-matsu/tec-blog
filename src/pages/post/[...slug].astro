@@ -7,7 +7,7 @@ import RelatedPosts from '@components/RelatedPosts.astro'
 import PostViewCard from '@components/PostViewCard.astro'
 import PostTitle from "@components/PostTitle.astro";
 import ShareButton from "@components/ShareButton.astro";
-import BlogFooter from '@components/BlogFooter.astro'
+import BlogFooterProfile from '@components/BlogFooterProfile.astro'
 import {getCollectionByName} from "@utils/getCollectionByName";
 import {sortPostsByDate} from "@utils/sortPostsByDate";
 import Donate from '@components/Donate.astro'
@@ -91,7 +91,7 @@ if (sortPosts[currentPostIndex + 1]) {
     <aside>
       <ShareButton url={Astro.url} title={encodeURIComponent(entry.data.title + " | " + site.title)}></ShareButton>
     </aside>
-    <BlogFooter title={entry.data.title} url={'post/' + entry.slug} date={entry.data.date}></BlogFooter>
+    <BlogFooterProfile title={entry.data.title} url={'post/' + entry.slug} date={entry.data.date}></BlogFooterProfile>
     <div class="divider-horizontal"></div>
     <aside class="h-8 text-skin-base">
       {
