@@ -3,6 +3,8 @@ import {getCollection} from 'astro:content';
 import type {CollectionEntry} from 'astro:content';
 import IndexPage from "@layouts/IndexPage.astro";
 import Breadcrumb from '@components/Breadcrumb.astro';
+import {formatDate} from "@utils/formatDate";
+import {t} from '@/i18n/utils'
 
 export async function getStaticPaths() {
   const pages = (await getCollection('page')).filter(({data}) => {
@@ -26,6 +28,28 @@ const {Content} = await entry.render();
   <article class="markdown-body">
     <header class="border-b-1">
       <h1 class="break-all text-4xl font-bold font-title">{entry.data.title}</h1>
+      {
+        entry.data.dateDisplay && (
+          <div class="flex flex-wrap justify-end items-center my-2 space-x-2">
+            <!-- date -->
+            {
+              entry.data.date && (
+                <i class="ri-calendar-2-fill"/>
+                <div class="tag">{formatDate(entry.data.date)}</div>
+              )
+            }
+        
+            <!-- update -->
+            {
+              entry.data.lastModified && (
+                <div class="divider-vertical"/>
+                <i class="ri-reset-right-line"></i>
+                <div class="tag">{t('post.lastUpdated')}：{formatDate(entry.data.lastModified)}</div>
+              )
+            }
+          </div>
+        )
+      }
     </header>
     <Content/>
   </article>

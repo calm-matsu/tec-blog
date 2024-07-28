@@ -34,6 +34,7 @@ const page = defineCollection({
     toc: z.boolean().default(true).nullable(),
     donate: z.boolean().default(true).nullable(),
     comment: z.boolean().default(true).nullable(),
+    dateDisplay: z.boolean().default(false).nullable(),
   }),
 });
 
