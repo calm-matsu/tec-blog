@@ -7,6 +7,7 @@ import solid from '@astrojs/solid-js';
 import {resetRemark} from "./src/remarkPlugin/reset-remark.js";
 import remarkDirective from "remark-directive";
 import {remarkAsides} from  './src/remarkPlugin/remark-asides.js'
+import {remarkClassadd} from  './src/remarkPlugin/remark-classadd.js'
 import remarkBreaks from "remark-breaks";
 
 import expressiveCode,{ pluginFramesTexts } from "astro-expressive-code";
@@ -45,7 +46,7 @@ export default defineConfig({
     themeCssSelector: (theme) => `[data-theme="${theme.type}"]`
   }), mdx()],
   markdown: {
-    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}), remarkBreaks ],
+    remarkPlugins: [resetRemark, remarkDirective, remarkAsides({}), remarkClassadd, remarkBreaks ],
     rehypePlugins: [/* customRehypeLazyLoadImage */],
     remarkRehype: {
       footnoteLabel: "脚注"
