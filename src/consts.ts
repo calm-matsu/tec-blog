@@ -142,6 +142,14 @@ export const infoLinks = [
   }
 ]
 
+export const usedIcons = {
+  date: 'ri-calendar-2-fill',
+  update: 'ri-reset-right-line',
+  category: 'ri-folder-line',
+  tag: 'ri-price-tag-3-line',
+  draft: 'ri-draft-line',
+}
+
 /**
  * donate
  * enable {boolean}

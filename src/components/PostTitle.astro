@@ -1,8 +1,8 @@
 ---
-import {formatDate} from "../utils/formatDate";
-import {dealLabel} from "../utils/dealLabel";
-import {t} from '../i18n/utils'
-import {categories} from "@/consts";
+import {formatDate} from "@utils/formatDate";
+import {dealLabel} from "@utils/dealLabel";
+import {t} from '@/i18n/utils'
+import {categories, usedIcons} from "@/consts";
 import getCategories from "@utils/getCategories";
 
 const {title, date, category, tags, lastModified = '', draft = false, readingTime = {}} = Astro.props
@@ -21,7 +21,7 @@ const path = flatCategoriesList.find((cat) => cat.slug===category);
     <!-- date -->
     {
       date && (
-        <i class="ri-calendar-2-fill"/>
+        <i class={usedIcons['date']}/>
         <div class="tag">{formatDate(date)}</div>
       )
     }
@@ -30,7 +30,7 @@ const path = flatCategoriesList.find((cat) => cat.slug===category);
     {
       lastModified && (
         <div class="divider-vertical"/>
-        <i class="ri-calendar-check-fill"></i>
+        <i class={usedIcons['update']}></i>
         <div class="tag">{t('post.lastUpdated')}：{formatDate(lastModified)}</div>
       )
     }
@@ -40,7 +40,7 @@ const path = flatCategoriesList.find((cat) => cat.slug===category);
       draft &&
       <>
         <div class="divider-vertical"/>
-        <i class="ri-git-pr-draft-line"/>
+        <i class={usedIcons['draft']}/>
         <div>{t('title.draft')}</div>
       </>
     }
@@ -49,7 +49,7 @@ const path = flatCategoriesList.find((cat) => cat.slug===category);
     {
       category && dealLabel(category).filter(item => item !== 'uncategorized').map((categoryName) => (
         <div class="divider-vertical"/>
-        <i class="ri-folder-3-line"/>
+        <i class={usedIcons['category']}/>
         <a href={"/category/" + categoryName} class="text-wrap break-all  hover:text-skin-active cursor-pointer">{path.name}</a>
       ))
     }
@@ -58,7 +58,7 @@ const path = flatCategoriesList.find((cat) => cat.slug===category);
     {
       tags && dealLabel(tags).map((tagName) => (
         <div class="divider-vertical"/>
-        <i class="ri-price-tag-3-line"/>
+        <i class={usedIcons['tag']}/>
         <a href={"/tags/" + tagName} class="text-wrap break-all hover:text-skin-active cursor-pointer">{tagName}</a>
       ))
     }

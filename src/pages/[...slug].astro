@@ -3,6 +3,7 @@ import {getCollection} from 'astro:content';
 import type {CollectionEntry} from 'astro:content';
 import IndexPage from "@layouts/IndexPage.astro";
 import Breadcrumb from '@components/Breadcrumb.astro';
+import {usedIcons} from "@/consts";
 import {formatDate} from "@utils/formatDate";
 import {t} from '@/i18n/utils'
 
@@ -34,7 +35,7 @@ const {Content} = await entry.render();
             <!-- date -->
             {
               entry.data.date && (
-                <i class="ri-calendar-2-fill"/>
+                <i class={usedIcons['date']}/>
                 <div class="tag">{formatDate(entry.data.date)}</div>
               )
             }
@@ -43,7 +44,7 @@ const {Content} = await entry.render();
             {
               entry.data.lastModified && (
                 <div class="divider-vertical"/>
-                <i class="ri-reset-right-line"></i>
+                <i class={usedIcons['update']}></i>
                 <div class="tag">{t('post.lastUpdated')}：{formatDate(entry.data.lastModified)}</div>
               )
             }
