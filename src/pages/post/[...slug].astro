@@ -15,11 +15,12 @@ import {donate} from "@/consts";
 import similerItems from "@utils/similarItems";
 import {categories,site} from "@/consts";
 import getCategories from "@utils/getCategories";
+import { isProd } from "@utils/isProd";
 import { Debug } from 'astro/components';
 
 export async function getStaticPaths() {
-  const blogEntries = (await getCollection('blog')).filter(({data}) => {
-    return import.meta.env.PROD ? !data.draft : true
+  const blogEntries = await getCollection("blog", ({ data }) => {
+    return isProd ? data.draft !== true : true;
   });
   return blogEntries.map(entry => ({
     params: {slug: entry.slug}, props: {entry,},
