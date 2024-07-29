@@ -55,16 +55,22 @@ export const mainMenu = [
     name: "Archive",
     iconClass: "ri-archive-line",
     href: "/archive/",
+    target:'',
+    children:[],
   },
   {
     name: "Search",
     iconClass: "ri-search-line",
     href: "/search/",
+    target:'',
+    children:[],
   },
   {
     name: 'About',
     iconClass: 'ri-information-line',
     href: '/about/',
+    target:'',
+    children:[],
   },
 ]
 

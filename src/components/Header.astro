@@ -27,7 +27,7 @@ let tagCount = getCountByTagName(blogs);
         <nav class="flex items-stretch space-x-5 pr-4 h-full">
           {
             mainMenu.map(menuItem => (
-              <HeaderLink href={menuItem.href} icon={menuItem.iconClass} target={menuItem.target ? menuItem.target : '_self'} children={menuItem.children ? menuItem.children : []}>{menuItem.name}</HeaderLink>
+              <HeaderLink href={menuItem.href} icon={menuItem.iconClass} target={menuItem.target ? menuItem.target : '_self'} childItems={menuItem.children ? menuItem.children : []}>{menuItem.name}</HeaderLink>
             ))
           }
         </nav>

@@ -1,5 +1,5 @@
 ---
-const {href, icon: iconClass, children, target, ...props} = Astro.props;
+const {href, icon: iconClass, childItems, target, ...props} = Astro.props;
 
 const {pathname} = Astro.url;
 let hrefMath = href.split('/')
@@ -11,14 +11,14 @@ const isActive = hrefMath[1] === pathnameMatch[1]
     <i class={iconClass}/>
     <slot/>
     {
-      children.length > 0 && <i class="ri-arrow-down-s-line"></i>
+      childItems.length > 0 && <i class="ri-arrow-down-s-line"></i>
     }
   </a>
-  {children && children.length > 0 && (
+  {childItems && childItems.length > 0 && (
     <div class="dropdown cursor-pointer border rounded bg-bland-menu p-4">
       <ul class="space-y-4 w-28">
         {
-          children.map(child =>
+          childItems.map(child =>
             <li class="text-center hover:text-skin-active select-none">
               <i class={child.iconClass}></i>
               <a target={child.target ? child.target : "_self"} href={child.href}>{child.name}</a>
