@@ -11,6 +11,14 @@ const ui = {
   cs
 }
 
+const uiLangs: string[] = Object.keys(ui);
+
+type Langs = typeof uiLangs[number]
+const isLangs = (
+  lang: string
+): lang is Langs => {
+  return uiLangs.some((v) => v === lang)
+}
 
 export function useTranslations(lang: keyof typeof ui) {
   return function t(key: string) {
@@ -18,5 +26,5 @@ export function useTranslations(lang: keyof typeof ui) {
   }
 }
 
-export const t = useTranslations(config.lang)
+export const t = isLangs(config.lang) ? useTranslations(config.lang as keyof typeof ui):useTranslations("en")
 
