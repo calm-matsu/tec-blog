@@ -1,10 +1,10 @@
 import {createSignal} from "solid-js";
 import _ from 'lodash'
-import {dealLabel} from "../utils/dealLabel.ts"
-import {formatDate} from "../utils/formatDate.ts";
-import {t} from '../i18n/utils.ts'
+import {dealLabel} from "../utils/dealLabel";
+import {formatDate} from "../utils/formatDate";
+import {t} from '../i18n/utils';
 
-export function Search(props) {
+export function SearchPosts(props) {
   const [inputVal, setInputVal] = createSignal('')
   const [resultPosts, setResultPosts] = createSignal([])
 
