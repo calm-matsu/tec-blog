@@ -76,19 +76,19 @@ export const mainMenu = [
 
 export const subMenu = [
   {
-    name: "SiteTop",
+    name: "トップ",
     href: "/",
   },
   {
-    name: "Contact",
+    name: "お問い合わせ",
     href: "/contact/",
   },
   {
-    name: 'PrivacyPoricy',
+    name: 'プライバシーポリシー',
     href: '/privacy/',
   },
   {
-    name: 'Sitemap',
+    name: 'サイトマップ',
     href: '/sitemap/',
   },
 ]
@@ -97,24 +97,6 @@ export const categories = [
   {
     name: "技術",
     slug: "tec",
-    children: [
-      {
-        name: "してみた",
-        slug: "tec/try",
-      },
-      {
-        name: "HowTo",
-        slug: "tec/howto",
-      },
-      {
-        name: "解説",
-        slug: "tec/explan",
-      },
-    ]
-  },
-  {
-    name: "ポエム",
-    slug: "poem",
   },
   {
     name: "未整理",

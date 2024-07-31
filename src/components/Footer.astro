@@ -3,22 +3,9 @@ import {site, config, subMenu, infoLinks} from "../consts";
 import {t} from '../i18n/utils'
 ---
 
-<footer class="p-4 bg-stone-700 text-stone-100">
-  {
-    config.busuanzi && (
-      <div class="flex items-center justify-center text-skin-base">
-    <span id="busuanzi_container_site_pv">
-      {t('footer.busuanziSitePV')}<span id="busuanzi_value_site_pv"></span>{t('footer.busuanziSitePVUnit')}
-    </span>
-        <div class="divider-vertical"></div>
-        <span id="busuanzi_container_site_uv">
-      {t('footer.busuanziSiteUV')}<span id="busuanzi_value_site_uv"></span>{t('footer.busuanziSiteUVUnit')}
-    </span>
-      </div>
-    )
-  }
+<footer class="p-4 text-sm bg-stone-700 text-stone-100">
 <div>
-  <ul class="m-1 flex justify-center">
+  <ul class="m-1 flex justify-center gap-2">
   {
     subMenu.map(menuItem => (
       <li class="m-2"><a href={menuItem.href} class="hover:text-skin-activeHeader">{menuItem.name}</a></li>
@@ -31,6 +18,7 @@ import {t} from '../i18n/utils'
       <span class="cursor-default">Copyright</span>
       <i class="ri-copyright-line align-middle"></i>
       <span class="align-middle">2024</span>
+      <span class="align-middle">{site.title}</span>
     </div>
 
     <!--<a href="/sitemap-0.xml">{t('footer.sitemap')}</a>-->
