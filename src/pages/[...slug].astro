@@ -4,13 +4,12 @@ import type {CollectionEntry} from 'astro:content';
 import IndexPage from "@layouts/IndexPage.astro";
 import Breadcrumb from '@components/Breadcrumb.astro';
 import {usedIcons} from "@/consts";
+import {getCollectionByName} from "@utils/getCollectionByName";
 import {formatDate} from "@utils/formatDate";
 import {t} from '@/i18n/utils'
 
 export async function getStaticPaths() {
-  const pages = (await getCollection('page')).filter(({data}) => {
-    return import.meta.env.PROD ? !data.draft : true
-  });
+  const pages = await getCollectionByName("page");
   return pages.map(entry => ({
     params: {slug: entry.slug}, props: {entry,},
   }));
@@ -47,6 +46,16 @@ const {Content} = await entry.render();
                 <i class={usedIcons['update']}></i>
                 <div class="tag">{t('post.lastUpdated')}：{formatDate(entry.data.lastModified)}</div>
               )
+            }
+
+            <!-- draft -->
+            {
+              entry.data.draft &&
+              <>
+                <div class="divider-vertical"/>
+                <i class={usedIcons['draft']}/>
+                <div>{t('title.draft')}</div>
+              </>
             }
           </div>
         )
