@@ -1,10 +1,15 @@
 ---
 import {site, infoLinks} from "../consts";
+import {Content as ProfileText} from '@/content/part/simple-profile.md';
 ---
 
-<div class="shadow-lg rounded-lg h-64 w-auto flex flex-col items-center justify-center bg-bland-sideberprofile/75 p-2">
-  <img class="avatar mb-4" src={site.avatar} alt="avatar"/>
-  <div class="mb-2 text-center">{site.motto}</div>
+<div class="shadow-lg rounded-lg h-64 w-auto flex flex-col items-center justify-center bg-bland-sideberprofile/75 p-2 text-sm">
+  <img class="avatar" src={site.avatar} alt="avatar"/>
+  <h2>{site.author}</h2>
+  <div class="profile-text">
+  <div class="text-center">{site.motto}</div>
+  <div class="text-center"><ProfileText /></div>
+  </div>
   <div class="flex items-center justify-center flex-wrap">
     {
       infoLinks.map((infoItem) => (

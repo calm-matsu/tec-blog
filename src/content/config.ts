@@ -38,4 +38,14 @@ const page = defineCollection({
   }),
 });
 
-export const collections = {blog, page};
+const part = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    lastModified: z.date().optional().nullable(),
+    draft: z.boolean().default(false).nullable(),
+  }),
+});
+
+export const collections = { blog, page, part };
