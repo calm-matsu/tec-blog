@@ -20,7 +20,7 @@ export const site = {
   favicon: '/favicon.svg', // required
   description: '主に技術情報をまとめています。',
   author: "calm-matsu", // required
-  avatar: '/avatar.png', // required
+  avatar: '/charatsukuai.jpg', // required
   motto: '主に技術情報をまとめています。',
   url: 'https://labo.calm-dev.f5.si',
   recentBlogSize: 5,
