@@ -108,6 +108,7 @@ export const categories = [
  * Personal link address
  */
 export const infoLinks = [
+/* 
   {
     icon: 'ri-twitter-x-fill',
     name: 'twitter',
@@ -118,10 +119,11 @@ export const infoLinks = [
     name: 'mastodon',
     outlink: 'https://mstdn.jp/',
   },
+ */
   {
     icon: 'ri-github-fill',
     name: 'github',
-    outlink: 'https://github.com/',
+    outlink: 'https://github.com/calm-matsu',
   },
   {
     icon: 'ri-rss-fill',
