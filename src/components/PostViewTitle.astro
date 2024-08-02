@@ -1,0 +1,73 @@
+---
+import {formatDate} from "@utils/formatDate";
+import {dealLabel} from "@utils/dealLabel";
+import {t} from '@/i18n/utils'
+import {categories,usedIcons} from "@/consts";
+import getCategories from "@utils/getCategories";
+
+const {title, date, slug, category, tags, lastModified, sticky = false, draft = false} = Astro.props
+
+// カテゴリ一覧を配列で返す
+const flatCategoriesList = getCategories(categories);
+const path = flatCategoriesList.find((cat) => cat.slug===category);
+const pathname = path.full.map((nowpath)=> nowpath.name );
+
+---
+
+<div class="text-skin-base">
+  <!-- title -->
+  <div class="flex items-center">
+    {sticky > 0 &&
+      <div class="post-sticky select-none">{t('home.sticky')}</div>}
+    <a class="flex text-xl underline-offset-4 cursor-pointer decoration-skin-base hover:text-blue-700 hover:underline hover:decoration-blue-700 font-bold font-title" href={slug}>
+      {title}
+    </a>
+  </div>
+
+  <div class="flex flex-wrap items-center my-2 space-x-2">
+    <!-- date -->
+    {
+      date && (
+        <i class={usedIcons['date']}/>
+        <div>{formatDate(date)}</div>
+      )
+    }
+
+    <!-- update -->
+    {
+      lastModified && (
+        <div class="divider-vertical"/>
+        <i class={usedIcons['update']}></i>
+        <div class="tag">{t('post.lastUpdated')}：{formatDate(lastModified)}</div>
+      )
+    }
+
+    <!-- draft -->
+    {
+      draft &&
+      <>
+        <div class="divider-vertical"/>
+        <i class={usedIcons['draft']}/>
+        <div>{t('title.draft')}</div>
+      </>
+    }
+
+    <!-- category -->
+    {
+      category && dealLabel(category).filter(item => item !== 'uncategorized').map((categoryName) => (
+        <div class="divider-vertical"/>
+        <i class={usedIcons['category']}/>
+        <a href={"/category/" + categoryName} class="text-wrap break-all hover:text-skin-active">{pathname.join("/")}</a>
+      ))
+    }
+
+    <!-- tag -->
+    {
+      tags && dealLabel(tags).map((tagName) => (
+        <div class="divider-vertical"/>
+        <i class={usedIcons['tag']}/>
+        <a href={"/tags/" + tagName} class="text-wrap break-all hover:text-skin-active">{tagName}</a>
+      ))
+    }
+  </div>
+</div>

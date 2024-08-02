@@ -1,0 +1,27 @@
+---
+import {site, infoLinks} from "../consts";
+import {Content as ProfileText} from '@/content/part/blog-footer-profile.md';
+---
+
+<div class="shadow-lg rounded-lg w-auto flex items-center justify-center bg-skin-card p-2">
+  <div class="flex flex-col items-center justify-center m-2 p-2">
+    <img class="avatar" src={site.avatar} alt="avatar"/>
+  </div>
+  <div class="flex flex-col justify-center m-2 p-2 gap-2">
+    <h2>{site.author}</h2>
+    <div class="profile-text m-2">
+        <p class="mb-3">{site.motto}</p>
+        <ProfileText />
+    </div>
+    <div class="flex items-center justify-center flex-wrap">
+        {
+        infoLinks.map((infoItem) => (
+            <a title={infoItem.name} href={infoItem.outlink} target="_blank" class="hover:opacity-60">
+            <i class={infoItem.icon + " text-2xl mr-2 cursor-pointer"}/>
+            </a>
+        ))
+        }
+    </div>
+    
+  </div>
+</div>

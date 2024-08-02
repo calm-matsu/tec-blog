@@ -1,0 +1,89 @@
+:root {
+  --ra-color-note: rgb(66, 139, 202);
+  --ra-color-tip: rgb(92, 184, 92);
+  --ra-color-caution: rgb(240, 173, 78);
+  --ra-color-danger: rgb(217, 83, 79);
+
+  --ra-bgcolor-note: rgba(66, 139, 202,0.2);
+  --ra-bgcolor-tip: rgba(92, 184, 92,0.2);
+  --ra-bgcolor-caution: rgba(240, 173, 78,0.2);
+  --ra-bgcolor-danger: rgba(217, 83, 79,0.2);
+}
+
+.remark-aside {
+  padding: 1rem;
+  margin-bottom: 20px;
+  border-inline-start: 0.25rem solid;
+  border: 1px solid #eee;
+  border-radius: 0;
+  border-left-width: 5px;
+}
+
+.remark-aside p {
+  margin-top: 1em;
+  margin-bottom: 0;
+  font-size: 1rem; /* 16px */
+}
+
+.remark-aside--note {
+  border-left-color: var(--ra-color-note);
+  background-color: var(--ra-bgcolor-note);
+}
+.remark-aside--note svg {
+  fill: var(--ra-color-note);
+}
+.remark-aside--note .remark-aside__title {
+  color: var(--ra-color-note) !important;
+}
+
+.remark-aside--tip {
+  border-left-color: var(--ra-color-tip);
+  background-color: var(--ra-bgcolor-tip);
+}
+.remark-aside--tip svg {
+  fill: var(--ra-color-tip);
+}
+.remark-aside--tip .remark-aside__title {
+  color: var(--ra-color-tip) !important;
+}
+
+.remark-aside--caution {
+  border-left-color: var(--ra-color-caution);
+  background-color: var(--ra-bgcolor-caution);
+}
+.remark-aside--caution svg {
+  fill: var(--ra-color-caution);
+}
+.remark-aside--caution .remark-aside__title {
+  color: var(--ra-color-caution) !important;
+}
+
+.remark-aside--danger {
+  border-left-color: var(--ra-color-danger);
+  background-color: var(--ra-bgcolor-danger);
+}
+.remark-aside--danger svg {
+  fill: var(--ra-color-danger);
+}
+.remark-aside--danger .remark-aside__title {
+  color: var(--ra-color-danger) !important;
+}
+
+.remark-aside__title {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  margin: 0 !important;
+}
+
+.remark-aside__icon {
+  font-size: 1.333em;
+  width: 1em;
+  height: 1em;
+}
+
+.remark-aside__title + .remark-aside__content {
+  margin-top: 0.5rem;
+}

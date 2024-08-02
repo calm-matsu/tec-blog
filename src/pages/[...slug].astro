@@ -1,0 +1,67 @@
+---
+import {getCollection} from 'astro:content';
+import type {CollectionEntry} from 'astro:content';
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+import {usedIcons} from "@/consts";
+import {getCollectionByName} from "@utils/getCollectionByName";
+import {formatDate} from "@utils/formatDate";
+import {t} from '@/i18n/utils'
+
+export async function getStaticPaths() {
+  const pages = await getCollectionByName("page");
+  return pages.map(entry => ({
+    params: {slug: entry.slug}, props: {entry,},
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'page'>;
+}
+
+const {entry} = Astro.props;
+const {Content} = await entry.render();
+
+---
+<IndexPage title={entry.data.title} sitetitle={true}>
+  <Breadcrumb lists={[{name:entry.data.title,path:entry.slug}]} />
+  <article class="markdown-body">
+    <header class="border-b-1">
+      <h1 class="break-all text-4xl font-bold font-title">{entry.data.title}</h1>
+      {
+        entry.data.dateDisplay && (
+          <div class="flex flex-wrap justify-end items-center my-2 space-x-2">
+            <!-- date -->
+            {
+              entry.data.date && (
+                <i class={usedIcons['date']}/>
+                <div class="tag">{formatDate(entry.data.date)}</div>
+              )
+            }
+        
+            <!-- update -->
+            {
+              entry.data.lastModified && (
+                <div class="divider-vertical"/>
+                <i class={usedIcons['update']}></i>
+                <div class="tag">{t('post.lastUpdated')}：{formatDate(entry.data.lastModified)}</div>
+              )
+            }
+
+            <!-- draft -->
+            {
+              entry.data.draft &&
+              <>
+                <div class="divider-vertical"/>
+                <i class={usedIcons['draft']}/>
+                <div>{t('title.draft')}</div>
+              </>
+            }
+          </div>
+        )
+      }
+    </header>
+    <Content/>
+  </article>
+</IndexPage>
+

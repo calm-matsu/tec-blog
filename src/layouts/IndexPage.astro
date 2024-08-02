@@ -1,0 +1,50 @@
+---
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Profile from '@components/Profile.astro'
+import BlogAside from '@components/BlogAside.astro'
+import Comment from '@components/Comment.astro'
+import Donate from '@components/Donate.astro'
+import {donate, comment, site} from "@/consts";
+
+const {frontmatter = {comment: false, donate: false},title,sitetitle=false} = Astro.props;
+const titlestring = sitetitle ? title + " | " + site.title : title;
+---
+
+<html lang="ja">
+<BaseHead title={titlestring}/>
+
+<body class="font-body bg-skin-secondary relative">
+<Header/>
+<div class="container p-4 pt-20 cursor-default text-skin-base pb-32 min-h-full relative" id="app">
+  <div class="grid grid-cols-4 gap-8">
+    <main class="col-span-4 xl:col-span-3 space-y-6">
+      <slot></slot>
+      {
+        donate.enable && frontmatter.donate &&
+        <Donate></Donate>
+      }
+      {
+        comment.enable && frontmatter.comment &&
+        <Comment></Comment>
+      }
+    </main>
+    <aside>
+      <div class="hidden xl:block space-y-6">
+        <Profile></Profile>
+        <BlogAside></BlogAside>
+      </div>
+    </aside>
+  </div>
+</div>
+<footer>
+  <Footer/>
+</footer>
+</body>
+<script>
+  document.body.querySelectorAll("a").forEach(item => {
+    item.setAttribute("rel", "nofollow noreferrer");
+  });
+</script>
+</html>

@@ -1,0 +1,61 @@
+---
+import IndexPage from "@layouts/IndexPage.astro";
+import Breadcrumb from '@components/Breadcrumb.astro';
+import Pagination from "@components/Pagination.astro";
+import { sortPostsByDate } from "@utils/sortPostsByDate";
+import getPostsByYear from "@utils/getPostsByYear";
+import { getCollectionByName } from "@utils/getCollectionByName";
+import  {site} from "@/consts";
+import dayjs from "dayjs";
+import type { Page } from "astro";
+
+export async function getStaticPaths({ paginate }) {
+  let posts = await getCollectionByName("blog");
+  posts = sortPostsByDate(posts);
+  return paginate(posts, { pageSize: site.archivePageSize });
+}
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+let resultPosts = getPostsByYear(page.data);
+---
+
+<IndexPage title={"過去記事一覧"} sitetitle={true}>
+  <Breadcrumb lists={[{name:"過去記事一覧",path:"archive/"}]} />
+  <h1 class="break-all text-4xl font-bold font-title"><i class="ri-archive-line font-normal"/>過去記事一覧</h1>
+  {
+    Object.keys(resultPosts)
+      .sort((a, b) => Number(b) - Number(a))
+      .map((year) => (
+        <div>
+          <div class="text-2xl font-extrabold my-4">{year}</div>
+          <ul>
+            {resultPosts[year].map((post) => (
+              <li style="list-style-type: disc;" class="ml-4 my-2">
+                <a href={'/post/' + post.slug}>
+                  <span class="mr-4">
+                    {dayjs(post.data.date).format("YYYY-MM-DD")}
+                  </span>
+                  <span class="hover:text-skin-active">
+                  {post.data.title}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+  }
+  {
+    page.lastPage > 1 ?
+      <Pagination
+        currentPage={page.currentPage}
+        totalPage={page.lastPage}
+        prefixUrl="/archive/"
+        url={page.url}
+      /> : ''
+  }
+</IndexPage>

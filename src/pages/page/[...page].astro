@@ -1,0 +1,35 @@
+---
+import IndexPage from '@layouts/IndexPage.astro'
+import PostView from '@components/PostView.astro'
+import Pagination from '@components/Pagination.astro';
+import {getCollectionByName} from "@utils/getCollectionByName";
+import {orderBySticky} from "@utils/orderBySticky";
+import {site} from "@/consts";
+import type { Page } from 'astro';
+
+export async function getStaticPaths({paginate}) {
+  let posts = await getCollectionByName("blog");
+  let sortedPosts = await orderBySticky(posts);
+  // 1ページ目は `paginate` の返り値の `params.page` がundefinedになるので、filterで除外
+  return paginate(sortedPosts, {pageSize: site.postPageSize}).filter((page) => page.params.page);
+}
+const {page} = Astro.props;
+
+interface Props {
+  page: Page;
+}
+---
+
+
+<IndexPage frontmatter={{comment:false}}>
+  <div class="mt-4">{
+    page.data.map((blog, index) =>
+      <PostView blog={blog}></PostView>)
+  }</div>
+  <Pagination
+    currentPage={page.currentPage}
+    totalPage={page.lastPage}
+    url={page.url}
+  />
+</IndexPage>
+

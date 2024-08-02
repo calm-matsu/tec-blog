@@ -1,0 +1,337 @@
+@import url('./github-markdown.css');
+
+@import "remixicon/fonts/remixicon.css";
+@import "tocbot/dist/tocbot.css";
+@import "remark-aside.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@800&display=swap&text=revo-Lab');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "jetbrains-mono";
+  src: url('./JetBrainsMono-Regular.ttf');
+}
+
+/**
+tailwindcss のデフォルト スタイルをオーバーライドする
+ */
+
+html {
+  height: 100%;
+  scroll-padding-top: 72px;
+}
+
+body {
+  height: 100%;
+  @apply text-base;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@layer base {
+
+  :root,
+  html[data-theme="light"] {
+    --color-fill: 241, 241, 241;
+    --color-fill-secondary: 251, 251, 251;
+    --color-card: 241, 241, 241;
+    --color-text: 80, 73, 69;
+    --color-text-active: 24, 145, 226;
+    --color-text-active-header: 169, 215, 245;
+    --color-border: 104, 157, 106;
+    --color-border-active: 14, 192, 124;
+    --color-modal: 52, 58, 64;
+  }
+
+  html[data-theme="dark"] {
+    --color-fill: 40, 40, 40;
+    --color-fill-secondary: 52, 58, 64;
+    --color-card: 40, 42, 54;
+    --color-text: 249, 244, 227;
+    --color-text-active: 24, 145, 226;
+    --color-text-active-header: 169, 215, 245;
+    --color-border: 214, 93, 14;
+    --color-border-active: 7, 102, 120;
+    --color-modal: 251, 251, 251;
+  }
+
+  #sun-icon,
+  html[data-theme="dark"] #moon-icon {
+    display: none;
+  }
+
+  #moon-icon,
+  html[data-theme="dark"] #sun-icon {
+    display: block;
+  }
+
+  /* 見出し */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-title font-bold leading-tight;
+  }
+
+  .markdown-body > h2 {
+    @apply border-l-8 border-bland-heading1 bg-bland-heading1/25 p-2 pl-4
+  }
+  .markdown-body > h3 {
+    @apply border-l-8 border-bland-heading1 p-2 pl-4;
+  }
+  .markdown-body > h4 {
+    @apply border-l-4 border-bland-heading1 p-1 pl-2;
+  }
+  .markdown-body > h5,
+  .markdown-body > h6 {
+    @apply border-l-2 border-bland-heading1 p-1 pl-2;
+  }
+
+  /* 脚注 */
+  .markdown-body .footnotes {
+    @apply bg-slate-600/10 p-4;
+  }
+  .markdown-body .footnotes h2 {
+    @apply m-2;
+  }
+
+}
+
+@layer components {
+
+  /* ナビゲーションバーボタンのスタイル */
+  .header-link-active {
+    @apply decoration-skin-activeHeader;
+  }
+
+  .header-link-hover {
+    @apply decoration-skin-base text-skin-activeHeader;
+  }
+
+  .header-btn {
+    @apply cursor-pointer border rounded py-1 px-2 bg-skin-fill hover:text-skin-activeHeader mx-2 z-10
+  }
+
+  /*サイドバー各列共通のスタイル*/
+  .aside-widget {
+    @apply flex items-center w-full border-b mb-2;
+  }
+
+  /* サイドの最近のコメントリストのスタイル */
+  .waline-comment-content {
+    @apply p-1 overflow-auto max-h-72 break-words hover:text-skin-active;
+  }
+
+  .waline-comment-author {
+    @apply text-end mb-1 break-words hover:text-skin-active;
+  }
+
+  a {
+    @apply cursor-pointer;
+  }
+
+  .menu-icon {
+    @apply text-xl mr-2
+  }
+
+  /* markdownコンテンツの画像スタイル */
+  .image-cols-2 ul {
+    @apply grid gap-4 grid-cols-2 my-2 justify-center !list-none
+  }
+  .image-cols-2 li + li{
+    margin-top: 0;
+  }
+
+  .image-cols-3 ul {
+    @apply grid gap-4 grid-cols-3 my-2 justify-center !list-none
+  }
+  .image-cols-3 li + li{
+    margin-top: 0;
+  }
+
+  .image-cols-4 ul {
+    @apply grid gap-4 grid-cols-4 justify-center !list-none
+  }
+  .image-cols-4 li + li{
+    margin-top: 0;
+  }
+
+  /* プロフィール表示の書式 */
+  .profile-text ul {
+    list-style: disc !important;
+    margin: 0 0 0 15px;
+  }
+  .profile-text p {
+    margin: 0.3em 0;
+  }
+  .profile-text a {
+    color: rgb(var(--color-text-active));
+  }
+  .profile-text a:hover {
+    text-decoration:underline;
+    opacity: 0.6;
+  }
+
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* 分割線 */
+.divider-vertical {
+  position: relative;
+  top: -.06em;
+  display: inline-block;
+  height: .9em;
+  margin: 0 8px;
+  vertical-align: middle;
+  border-top: 0;
+  border-left: 1px solid rgba(0, 0, 0, .06);
+  background-color: rgba(var(--color-text), .3);
+}
+
+.divider-horizontal {
+  display: flex;
+  clear: both;
+  width: 100%;
+  height: 1px;
+  min-width: 100%;
+  margin: 16px 0;
+  background-color: rgba(var(--color-text), .3);
+}
+
+.divider-horizontal-mini {
+  display: flex;
+  clear: both;
+  width: 100%;
+  height: 1px;
+  min-width: 100%;
+  margin: 8px 0;
+  background-color: rgba(var(--color-text), .3);
+}
+
+/* markdownスタイルを書き換える */
+.markdown-body {
+  background-color: inherit;
+}
+
+.markdown-body p,
+li,
+ul,
+ol,
+div,
+a {
+  line-height: 26px;
+}
+
+/* waline コメントのサイドバーのスタイルを変更する */
+.waline-comment-content-author {
+  text-align: end;
+  margin-bottom: 6px;
+}
+
+.wl-emoji {
+  height: 24px;
+  display: inline-block;
+}
+
+/*  Webサイトリストのスタイルをクリア */
+ul,
+ol,
+menu {
+  list-style: none;
+}
+
+/* markdown リストスタイル */
+.markdown-body menu,
+.markdown-body ul {
+  list-style: disc;
+}
+
+.markdown-body ol {
+  list-style: decimal;
+}
+
+/* 画像を中央に配置する */
+/*
+.markdown-body img {
+   margin: 0 auto;
+}
+*/
+
+/* スクロールバーのスタイルを変更する */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 16px;
+  background-color: #edede9;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c4cc;
+  border-radius: 4px;
+}
+
+/* スティッキーテキストスタイル */
+.post-sticky {
+  font-weight: 400;
+  height: 20px;
+  padding: 0 6px;
+  margin-right: 5px;
+  line-height: 20px;
+  font-size: 16px;
+  white-space: nowrap;
+  vertical-align: 2px;
+  color: rgb(var(--color-fill));
+  background-color: rgb(var(--color-text));
+  opacity: 0.8;
+  border-radius: 2px 6px;
+}
+
+/* 目次スタイルの問題を修正*/
+/*  選択したリンクのテキストの色をオーバーライド */
+.is-active-link {
+  color: rgb(var(--color-text-active)) !important;
+}
+
+#toc a:hover {
+  color: rgb(var(--color-text-active));
+}
+
+/* tocbot に付属の境界線スタイルには貫通の問題があり、上書きされる可能性があります */
+.toc-link::before {
+  display: none !important;
+}
+
+
+.avatar {
+  border-radius: 50%;
+  padding: 4px;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  background-color: transparent;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.expressive-code {
+  margin: 1rem 0;
+}
+
+/* fix mathjax style */
+.MathJax {
+  text-align: left !important;
+}

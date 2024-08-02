@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "ES2022",
+    "lib": [
+      "es2020"
+    ],
+    "target": "es2019",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": false,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": false,
+    "strictNullChecks": false,
+    //"allowJs": true,
+    "checkJs": false,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "types": [
+      "astro/env"
+    ],
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
+  },
+  "include": [
+    "**/*.d.ts",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.astro"
+  ],
+  "exclude": [
+    "node_modules"
+
+  ]
+}

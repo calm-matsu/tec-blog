@@ -1,0 +1,77 @@
+---
+import {formatDate} from "@utils/formatDate";
+import {dealLabel} from "@utils/dealLabel";
+import {t} from '@/i18n/utils'
+import {categories, usedIcons} from "@/consts";
+import getCategories from "@utils/getCategories";
+
+const {title, date, category, tags, lastModified = '', draft = false, readingTime = {}} = Astro.props
+
+// カテゴリ一覧を配列で返す
+const flatCategoriesList = getCategories(categories);
+const path = flatCategoriesList.find((cat) => cat.slug===category);
+
+---
+
+<header class="border-b-1">
+  <!-- title -->
+  <h1 class="break-all text-4xl font-bold font-title">{title}</h1>
+
+  <div class="flex flex-wrap items-center my-2 space-x-2">
+    <!-- date -->
+    {
+      date && (
+        <i class={usedIcons['date']}/>
+        <div class="tag">{formatDate(date)}</div>
+      )
+    }
+
+    <!-- update -->
+    {
+      lastModified && (
+        <div class="divider-vertical"/>
+        <i class={usedIcons['update']}></i>
+        <div class="tag">{t('post.lastUpdated')}：{formatDate(lastModified)}</div>
+      )
+    }
+
+    <!-- draft -->
+    {
+      draft &&
+      <>
+        <div class="divider-vertical"/>
+        <i class={usedIcons['draft']}/>
+        <div>{t('title.draft')}</div>
+      </>
+    }
+
+    <!-- category -->
+    {
+      category && dealLabel(category).filter(item => item !== 'uncategorized').map((categoryName) => (
+        <div class="divider-vertical"/>
+        <i class={usedIcons['category']}/>
+        <a href={"/category/" + categoryName} class="text-wrap break-all  hover:text-skin-active cursor-pointer">{path.name}</a>
+      ))
+    }
+
+    <!-- tag -->
+    {
+      tags && dealLabel(tags).map((tagName) => (
+        <div class="divider-vertical"/>
+        <i class={usedIcons['tag']}/>
+        <a href={"/tags/" + tagName} class="text-wrap break-all hover:text-skin-active cursor-pointer">{tagName}</a>
+      ))
+    }
+
+    <!-- minutes -->
+    {
+      readingTime.minutes && (
+        <div class="divider-vertical"/>
+        <i class="ri-hourglass-fill"/>
+        <div class="tag">{Math.ceil(readingTime.minutes)}{t('title.minutes')}</div>
+        <div class="divider-vertical"/>
+        <div class="tag">{readingTime.words}{t('title.words')}</div>
+      )
+    }
+  </div>
+</header>

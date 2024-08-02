@@ -1,0 +1,76 @@
+---
+const {categories,countList} = Astro.props;
+---
+<ul>
+  {
+  categories.map(category => (
+    category.hasOwnProperty("children") ? (
+      <li><span class="folder"><a
+        class="hover:text-skin-active"
+        title={category.name}
+        href={"/category/" + category.slug}
+      >{category.name} ({
+        category.slug in countList ? countList[category.slug] : "0"
+      })</a></span>
+      <Astro.self categories={category.children} countList={countList}></CategorisList></li> 
+        {/*console.log(countList[category.slug])*/}
+      ) : (
+      <li><a
+        class="hover:text-skin-active"
+        title={category.name}
+        href={"/category/" + category.slug}
+      >{category.name} ({
+        category.slug in countList ? countList[category.slug] : "0"
+      })</a></li>
+      {/*console.log(countList[category.slug])*/}
+      )
+  ))
+  }
+</ul>
+<style>
+ul {
+  list-style-type: disc;
+  margin: 0 0 0 15px;
+  padding: 0;
+  position: relative;
+}
+ul li {
+  position: relative;
+  margin: 0;
+  padding-left: 5px;
+}
+ul li:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 10px;
+  height: 0;
+  /*border-top: 1px solid #666;*/
+}
+ul li:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  /*border-left: 1px solid #666;*/
+}
+ul li:last-child:after {
+  height: 18px;
+}
+/*.folder:before {
+    content: "▶";
+}*/
+
+
+ul > li:before,
+ul > li:after {
+  /* 最上位も線を表示する時はコメント化 */
+  /*border: none;*/
+}
+</style>

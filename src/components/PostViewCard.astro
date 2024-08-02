@@ -1,0 +1,24 @@
+---
+import PostViewTitle from '../components/PostViewTitle.astro'
+import {t} from '../i18n/utils'
+const {blog} = Astro.props;
+const {data, slug} = blog
+---
+
+<div class="max-w-sm rounded overflow-hidden shadow-lg m-5">
+  <div class="px-6 py-4">
+  <PostViewTitle
+    slug={`/post/${slug}`}
+    {...data}
+  >
+  </PostViewTitle>
+  <p class="break-all text-skin-base mb-2">
+    {
+      data.description ? data.description : ''
+    }
+  </p>
+  <div class="text-right">
+    <a class="hover:text-skin-active text-sm border rounded py-1 px-2" href={`/post/${slug}`}>{t('home.readMore')}</a>
+  </div>
+  </div>
+</div>

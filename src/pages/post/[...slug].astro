@@ -1,0 +1,141 @@
+---
+import {getCollection,getEntries} from 'astro:content';
+import type {CollectionEntry} from 'astro:content';
+import BlogPost from '@layouts/BlogPost.astro'
+import Breadcrumb from '@components/Breadcrumb.astro';
+import RelatedPosts from '@components/RelatedPosts.astro'
+import PostViewCard from '@components/PostViewCard.astro'
+import PostTitle from "@components/PostTitle.astro";
+import ShareButton from "@components/ShareButton.astro";
+import BlogFooterProfile from '@components/BlogFooterProfile.astro'
+import {getCollectionByName} from "@utils/getCollectionByName";
+import {sortPostsByDate} from "@utils/sortPostsByDate";
+import Donate from '@components/Donate.astro'
+import {donate} from "@/consts";
+import similerItems from "@utils/similarItems";
+import {categories,site} from "@/consts";
+import getCategories from "@utils/getCategories";
+import { isProd } from "@utils/isProd";
+import { Debug } from 'astro/components';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog", ({ data }) => {
+    return isProd ? data.draft !== true : true;
+  });
+  return blogEntries.map(entry => ({
+    params: {slug: entry.slug}, props: {entry,},
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const {entry} = Astro.props;
+const {Content, remarkPluginFrontmatter} = await entry.render();
+
+const lastModified = remarkPluginFrontmatter.lastModified
+const readingTime = remarkPluginFrontmatter.readingTime
+
+const posts = await getCollectionByName("blog");
+const sortPosts = sortPostsByDate(posts);
+const similarPosts = similerItems(entry, posts, entry.slug);
+
+// カテゴリ一覧を配列で返す
+const flatCategoriesList = getCategories(categories);
+const path = flatCategoriesList.find((cat) => cat.slug===entry.data.category);
+
+// カテゴリからパンくずリスト用のパスを設定
+const fullPath = [...path.full.map((nowCategory) =>{
+  return { name:nowCategory.name, path:"category/"+nowCategory.slug };
+})];
+
+// フロントマターから関連記事を取得（なければnull）
+const relatedPosts = Array.isArray(entry.data.relatedPosts) && entry.data.relatedPosts.length
+  ? await getEntries(entry.data.relatedPosts): null;
+
+const currentPostIndex = sortPosts.findIndex(
+  (postItem) => postItem.data.title === entry.data.title
+);
+let prevPost, nextPost
+if (sortPosts[currentPostIndex - 1]) {
+  prevPost = sortPosts[currentPostIndex - 1];
+}
+if (sortPosts[currentPostIndex + 1]) {
+  nextPost = sortPosts[currentPostIndex + 1];
+}
+---
+<BlogPost frontmatter={entry.data} title={entry.data.title} description={entry.data.description} >
+  <!-- <Debug {flatCategoriesList} />
+  <Debug {path} /> -->
+  <Breadcrumb lists={fullPath} lastLinkActive={true} />
+  <article>
+    <PostTitle slug={`/post/${entry.slug}`} {...entry.data} lastModified={lastModified} readingTime={readingTime}></PostTitle>
+    <div class="divider-horizontal"></div>
+    <div class="markdown-body">
+      <Content/>
+    </div>
+    {
+      entry.data.footnote ? ( 
+        <aside class="my-4 p-4 bg-skin-card break-all">
+          <h2 class="text-xl font-bold font-title">追記</h2>
+          <ul class="list-disc ml-6 mt-2">
+            {
+              entry.data.footnote.map( note => <li>{note}</li> )
+            }
+          </ul>
+        </aside>
+      ):""
+    }
+    
+    { relatedPosts && <RelatedPosts posts={relatedPosts} /> }
+    <aside>
+      <ShareButton url={Astro.url} title={encodeURIComponent(entry.data.title + " | " + site.title)}></ShareButton>
+    </aside>
+    <BlogFooterProfile title={entry.data.title} url={'post/' + entry.slug} date={entry.data.date}></BlogFooterProfile>
+    <div class="divider-horizontal"></div>
+    <aside class="h-8 text-skin-base">
+      {
+        prevPost ? (
+          <a
+            class="truncate  w-auto max-w-[40%] float-left"
+            href={'/post/' + prevPost.slug}
+            title={prevPost.data.title}
+          >
+            <i class="ri-arrow-left-s-fill"/>
+            {prevPost.data.title}
+          </a>
+        ) : (
+          <div/>
+        )
+      }
+      {
+        nextPost ? (
+          <div class="flex item-center float-right w-auto max-w-[40%] text-right">
+            <a class="truncate " href={'/post/' + nextPost.slug} title={nextPost.data.title}>
+              {nextPost.data.title}
+            </a>
+            <i class="ri-arrow-right-s-fill float-right"/>
+          </div>
+        ) : (
+          <div/>
+        )
+      }
+    </aside>
+    <div class="divider-horizontal"></div>
+    <aside>
+      <h2 class="text-center">以下の記事もどうぞ</h2>
+      <div class="grid md:grid-cols-2">
+        {
+          similarPosts.map(post =>
+            <PostViewCard blog={post}></PostViewCard>)
+        }
+        </div>
+    </aside>
+    {
+      donate.enable && entry.data.donate &&
+      <Donate></Donate>
+    }
+  </article>
+
+</BlogPost>
