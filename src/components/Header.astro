@@ -67,8 +67,11 @@ let tagCount = getCountByTagName(blogs);
     }
   </div>
   <div id="personal-info" class="hidden break-all overflow-y-auto pb-8" style="height: calc(100vh - 64px)">
-    <img class="avatar my-4 mx-auto" src={site.avatar} alt="avatar"/>
-    <div class="mb-2 text-center">{site.motto}</div>
+    <img class="avatar mt-4 mx-auto" src={site.avatar} alt="avatar"/>
+    <div class="mb-2 text-center">
+      <h2>{site.author}</h2>
+      <div>{site.motto}</div>
+    </div>
     <div class="flex items-center justify-center flex-wrap">
       {
         infoLinks.map((infoItem) => (
