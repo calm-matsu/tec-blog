@@ -51,6 +51,11 @@ export default defineConfig({
     remarkRehype: {
       footnoteLabel: "脚注"
     },
+  },
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/noop'
+    }
   }
 });
 
