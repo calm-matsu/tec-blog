@@ -22,7 +22,7 @@ export const site = {
   author: "calm-matsu", // required
   avatar: '/charatsukuai.jpg', // required
   motto: '主に技術情報をまとめています。',
-  url: 'https://labo.calm-dev.f5.si',
+  url: 'https://revo-labo.pages.dev',
   recentBlogSize: 5,
   archivePageSize: 25,
   postPageSize: 10,

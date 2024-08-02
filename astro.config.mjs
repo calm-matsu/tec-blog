@@ -34,7 +34,7 @@ function customRehypeLazyLoadImage() {
 */
 
 export default defineConfig({
-  site: 'https://labo.calm-dev.f5.si',
+  site: 'https://revo-labo.pages.dev',
   integrations: [sitemap(), tailwind(), solid(), expressiveCode({
     plugins: [],
     themes: ["github-dark", "github-light"],
